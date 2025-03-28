@@ -5,41 +5,44 @@
       <meta charset="UTF-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <script src="https://cdn.jsdelivr.net/npm/js-md5@0.8.3/src/md5.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/js-md5@0.7.3/build/md5.min.js"></script>
       <title>Document</title>
       <script src="https://kit.fontawesome.com/7505fbf04c.js" crossorigin="anonymous"></script>
 
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Lilita+One&display=swap"
-            rel="stylesheet">
-      <button type="button" class="next-page pagination-button" aria-label="Siguiente ´Página">
-            <i class="fas fa-angle-right" aria-hidden="true"></i>
-      </button>
+     
+      
 
 
       <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
 
       <script src="https://cdn.tailwindcss.com"></script>
+      <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+
+      <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Boldonse&family=Lilita+One&display=swap" rel="stylesheet">
 
 </head>
 
-<body>
+<body class="bg-black">
       <header>
-            <div class="column logo-conatinerbg-red-50 flex flex-col items-center min-h-24 w-full bg-black">
+            <div class="column logo-conatiner  flex flex-col items-center min-h-24 w-full bg-black ">
                   <h1
-                        class="logo  text-2xl text-white bg-red-700 min-h-24 w-700 font-(Lilita One) flex items-center justify-center">
-                        ADA COMICS</h1>
+                        class=" text-2xl md:text-4xl text-white font-bold bg-red-700 min-h-24  w-900  md:min-w-xl  One flex items-center justify-center min-w-80">
+                        Rick and Morty</h1>
             </div>
       </header>
-      <div class="w-full bg-green-200 h-96">hero</div>
+      <div class="w-full overflow-hidden">
+            <div class="h-96 bg-[url('./style/img/4.jpg')] bg-cover bg-no-repeat bg-center">
+                hero
+            </div>
+        </div>
       <main class="column">
-            <div class="scearch">
+            <div class="scearch ">
                   <h2 id="search-title  " class="text-2xl font-bold">busqueda</h2>
                   <div class="search-container bg-red-100 min-h-48">
                         <div class="search-input-container">
-                              <input type="text" name="" id="" placeholder="Ingresa tu Busqueda" class="search-input">
-                              <i class="fas fa-search"></i>
+                              <input type="text" name="" id="input-text-search" placeholder="Ingresa tu Busqueda"
+                                    class="search-input">
+                              <i id="button-search" class=" fas fa-search"></i>
                         </div>
 
                         <div class="search-inner-container relative">
@@ -57,7 +60,8 @@
                                           <option value="focDate">Mas viejos</option>
                                     </select>
                               </div>
-                              <button type="button" class="search-button left-0 top-0">Buscar</button>
+                              <button type="button"
+                                    class="search-button absolute right-0 bottom-0  size-16  text-white">Buscar</button>
 
                         </div>
 
@@ -83,13 +87,13 @@
                               <p class="character-description"></p>
                         </div>
                   </section>
-                  <section id="resultSection" class="result section">
+                  <section id="resultSection" class="result section flex-col">
                         <h2 class="results-title">Resultados</h2>
                         <p class="result-count">
                               <span class="results-number">63795</span>
                               Resultados
                         </p>
-                        <div class="results flex flex-wrap w-full">
+                        <div class="results flex flex-wrap  w-full">
                               <div class="comic sm: bg-black min-w-80 md:min-w-32 md:min-h-32">
                                     <div class="comic-img-container bg-lime-100 min-h-96 ">
                                           <img class=" " src="" alt="">
@@ -122,33 +126,35 @@
                               </div>
 
                         </div>
-                        <div class="pagination flex justify-center">
-                              <button type="button" class="first-page pagination-button" aria-label="Pagina Previa">
-                                    <i class="fas fa-angle-left" aria-hidden="true"></i>
-                              </button>
-                              <button type="button" class="previous-page pagination-button" aria-label="Página Anterior"
-                                    disabled="">
-                                    <i class="fas fa-angle-left" aria-hidden="true"></i>
-                              </button>
-                              <button type="button" class="next-page pagination-button" aria-label="Siguiente ´Página">
-                                    <i class="fas fa-angle-right" aria-hidden="true"></i>
-                              </button>
-                              <button type="button" class="next-page pagination-button" aria-label="Siguiente ´Página">
-                                    <i class="fas fa-angle-right" aria-hidden="true"></i>
-                              </button>
-                        </div>
-
+                       
                   </section>
+                  <div class="pagination flex justify-center bg-black text-white min-h-24">
+                        <button type="button" id="firstPage" class="first-page " aria-label="Pagina Previa">
+                              <i class="fa-solid fa-angles-left text-2xl md:text-4xl m-5  text-white"></i>
+                        </button>
+                        <button type="button" id="previousPage" class="previous-Page "
+                              aria-label="Página Anterior" >
+                              <i class="fas fa-angle-left text-2xl md:text-4xl m-5 text-white" ></i>
+                        </button>
+                        <button type="button" id="nextPage" class="next-page " aria-label="Siguiente Página">
+                              <i class="fas fa-angle-right text-2xl md:text-4xl m-5 text-white" ></i>
+                        </button>
+                        <button type="button" id="lastPage" class=" " aria-label="Siguiente Página">
 
-                  <div class="loader-container hidden">
+                              <i class="fa-solid fa-angles-right text-2xl md:text-4xl m-5 text-white"></i>
+                        </button>
+                  </div>
+
+                  <div class="loader-container ">
                         <div class="loader"></div>
                   </div>
             </div>
       </main>
-      <footer class="flex justify-center items-center bg-green-600 min-h-24 text-white">
-            <div class="column ">Hecho con 0 por Nadia </div>
+      <footer class="flex justify-center items-center bg-black min-h-24 text-white">
+            <div class="column font-family-Lilita One md:text-2xl">Hecho con 0 por Nadia </div>
       </footer>
       <script src="./main.js"></script>
+
 </body>
 
 </html>
