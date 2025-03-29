@@ -10,6 +10,7 @@ const $ = (element) => document.querySelector(element);
 const $$ = (element) => document.querySelector(element);
 
 
+
 const $searchTitle = $("#search-title ");
 const $searchSort = $("#search-sort ");
 const $resultSection = $("#resultSection")
@@ -22,6 +23,7 @@ const $firstPage = $("#firstPage ");
 const $previousPage = $("#previousPage");
 const $nextPage = $("#nextPage")
 const $lastPage = $("#lastPage")
+const $numeroPage = $("#numeroPage")
 
 
 //para acceder a u personaje especifico 
@@ -30,19 +32,23 @@ const $lastPage = $("#lastPage")
 //{{baseUrl}}/comics/idComic?ts={{ts}}&hash={{hash}}
 ///------boton de busqueda---//
 
-$buttonSearch.addEventListener("click", async() => {
-    const textoSearch = $inputtextSearch.value.trim()
-    console.log(textoSearch)
-try{
-    const response =await axios(`https://rickandmortyapi.com/api/character/?name=${textoSearch.value}`)
-    
+$buttonSearch.addEventListener("click", ()=> {
+  $resultSection.innerHTML="";
+  $resultSection.innerHTML =`<h1>loading</h1>`
+  $numeroPage.innerText = currentPage;
+  
+ 
+  fetch(`https://rickandmortyapi.com/api/character?name=${$inputtextSearch.value}`,{
 
-    console.log(response.data)
-    const comics =response.data.data.results;
-    pintarDatos(personajes);
-}catch(error){
-    
-}
+  })
+  .then((res)=>res.json())
+  .then(response =>{
+    console.log(response)
+    pintarDatos(response.results)
+  })
+  .catch(error =>{
+    console.log(error)
+  } )  
 })
 
 
@@ -50,12 +56,16 @@ try{
 //-----------pintar datos-------//
 function pintarDatos(array) {
     $resultSection.innerHTML = '';
+   
     for (const personaje of array) {
-        $resultSection.innerHTML += ` <div class="comic sm: bg-black min-w-80 md:min-w-32 md:min-h-32">
-        <div class="comic-img-container bg-lime-100 min-h-96 ">
-              <img class=" " src="${personaje.image}" alt="">
+        $resultSection.innerHTML += ` <div class="flex-wrap comic sm: bg-black min-w-80 md:min-w-32 md:min-h-32  ">
+        <div class="comic-img-container bg-black min-h-96  ">
+              <img class="" src="${personaje.image}" alt="">
         </div>
-        <h3 class="comic-title min-h-24 bg-lime-50 ">${personaje.name}</h3>
+        <h3 class="comic-title min-h-24 bg-black text-white ">nombre :${personaje.name}</h3>
+        <h3 class="comic-title min-h-24 bg-black text-white ">Genero:${personaje.gender==="Female"?"Mujer":"Hombre"}</h3>
+        <h3 class="comic-title min-h-24 bg-black text-white ">Estado:${personaje.status==="alive"?" Esta vivo":" No esta vivo"}</h3>
+        <h1></h1>
   </div>`
     }
 }
@@ -64,6 +74,10 @@ let currentPage = 1
 //---------botones de paginacion--------//
 $firstPage.addEventListener("click", () => {
     currentPage =1
+    $numeroPage.innerText = currentPage;
+    $resultSection.innerHTML="";
+    $resultSection.innerHTML =`<h1>loading</h1>`
+   
     fetch(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
       .then(res => res.json())
       .then(response => {
@@ -82,6 +96,10 @@ $lastPage.addEventListener("click", () => {
 })
 
 $previousPage.addEventListener("click", () => {
+  if (currentPage <= 1) {
+    alert("Ya estás en la primera página. No puedes ir a una página anterior.");
+    return; 
+  }
     currentPage -=1
     fetch(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
       .then(res => res.json())
@@ -93,6 +111,7 @@ $previousPage.addEventListener("click", () => {
       })
       .catch(error => {
         console.log(error)
+        $
       })
     
 })
@@ -108,9 +127,12 @@ $nextPage.addEventListener("click", () => {
       })
       .catch(error => {
         console.log(error)
+       /* $resultSection.innerHTML="";
+        $resultSection.innerHTML= `<img src="./style/img/error2.jpg">`*/
       })
-    
+   
 })
+
 
 
 
@@ -127,7 +149,7 @@ window.onload = () => {
       .catch(error => {
         console.log(error)
       })
-      
+      pintarDatos(personajes)
   }
   
 
