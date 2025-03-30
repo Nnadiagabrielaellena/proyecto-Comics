@@ -1,9 +1,9 @@
 
 
 fetch(`https://rickandmortyapi.com/api/character`)
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.log(error))
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.log(error))
 
 
 const $ = (element) => document.querySelector(element);
@@ -25,133 +25,195 @@ const $nextPage = $("#nextPage")
 const $lastPage = $("#lastPage")
 const $numeroPage = $("#numeroPage")
 
+const $Episode = $("#Episode")
+
 
 //para acceder a u personaje especifico 
 //{{baseUrl}}/characters/idCharacter?ts={{ts}}&hash={{hash}}
 //para acceder a detalle de comic
 //{{baseUrl}}/comics/idComic?ts={{ts}}&hash={{hash}}
 ///------boton de busqueda---//
+let currentPage = 1
+let pageMax = 0;
+console.log(pageMax)
 
-$buttonSearch.addEventListener("click", ()=> {
-  $resultSection.innerHTML="";
-  $resultSection.innerHTML =`<h1>loading</h1>`
-  $numeroPage.innerText = currentPage;
-  
- 
-  fetch(`https://rickandmortyapi.com/api/character?name=${$inputtextSearch.value}`,{
+$buttonSearch.addEventListener("click", async () => {
+  $resultSection.innerHTML = "";
+  $resultSection.innerHTML = `<h1>loading</h1>`
 
-  })
-  .then((res)=>res.json())
-  .then(response =>{
-    console.log(response)
-    pintarDatos(response.results)
-  })
-  .catch(error =>{
+
+  try {
+    const response = await axios(`https://rickandmortyapi.com/api/character?name=${$inputtextSearch.value}`, {
+    })
+      .then(response => {
+        console.log(response.data)
+        // pageMax = response.info.pages
+        console.log(response.data)
+        pintarDatos(response.data.results)
+        //agregar aqui el evento onclick
+
+      })
+  } catch (error) {
+    $resultSection.innerHTML = `<div><h1 class="text-white tex-2xl">no hay resultados</h1><img class="" src="./style/img/no.jpg"></div>`
     console.log(error)
-  } )  
+  }
 })
-
-
 
 //-----------pintar datos-------//
 function pintarDatos(array) {
-    $resultSection.innerHTML = '';
-   
-    for (const personaje of array) {
-        $resultSection.innerHTML += ` <div class="flex-wrap comic sm: bg-black min-w-80 md:min-w-32 md:min-h-32  ">
+  $resultSection.innerHTML = '';
+
+  for (const personaje of array) {
+    $resultSection.innerHTML += ` <div class="flex-wrap comic sm: bg-black min-w-80 md:min-w-32 md:min-h-32  ">
         <div class="comic-img-container bg-black min-h-96  ">
               <img class="" src="${personaje.image}" alt="">
         </div>
-        <h3 class="comic-title min-h-24 bg-black text-white ">nombre :${personaje.name}</h3>
-        <h3 class="comic-title min-h-24 bg-black text-white ">Genero:${personaje.gender==="Female"?"Mujer":"Hombre"}</h3>
-        <h3 class="comic-title min-h-24 bg-black text-white ">Estado:${personaje.status==="alive"?" Esta vivo":" No esta vivo"}</h3>
-        <h1></h1>
+        <h1 class="comic-title min-h-24 bg-black text-white m-2">nombre :${personaje.name}</h1>
+        <h3 class="comic-title min-h-24 bg-black text-white ">Genero:${personaje.gender === "Female" ? "Mujer" : "Hombre"}</h3>
+        <h3 class="comic-title min-h-24 bg-black text-white ">Estado:${personaje.status === "alive" ? " Esta vivo" : " No esta vivo"}</h3>
+        <h1 id="numeroPage"></h1>
   </div>`
-    }
+  }
+
 }
 
-let currentPage = 1
+
+
 //---------botones de paginacion--------//
-$firstPage.addEventListener("click", () => {
-    currentPage =1
-    $numeroPage.innerText = currentPage;
-    $resultSection.innerHTML="";
-    $resultSection.innerHTML =`<h1>loading</h1>`
-   
-    fetch(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
-      .then(res => res.json())
+$firstPage.addEventListener("click", async () => {
+  $resultSection.innerHTML = ""
+  $resultSection.innerHTML = `<div><img class="" src="./style/img/fin.jpg"></div>`
+  currentPage = 1
+  $numeroPage.innerText = currentPage
+
+  try {
+    const response = await axios(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
+
       .then(response => {
-  
-        const personajes = response.results;
+
+        const personajes = response.data.results;
+        console.log(personajes)
+        pintarDatos(personajes)
+
+      })
+  } catch (error) {
+
+  }
+})
+
+$lastPage.addEventListener("click", async () => {
+  $resultSection.innerHTML = ""
+  $resultSection.innerHTML = `<img class="" src="./style/img/fin.jpg">`
+  currentPage = 42
+  console.log(currentPage)
+  $numeroPage.innerText = currentPage
+
+  try {
+    const response = await axios(`https://rickandmortyapi.com/api/character?page=42`)
+
+      .then(response => {
+
+        const personajes = response.data.results;
         console.log(personajes)
         pintarDatos(personajes)
       })
-      .catch(error => {
-        console.log(error)
-      })
-})
-$lastPage.addEventListener("click", () => {
-    // buscar los datos con lo escrito en $input=tex search pero en la ultima pag
-    //si se cump[le pintar datos]
+  } catch (error) {
+
+  }
 })
 
-$previousPage.addEventListener("click", () => {
-  if (currentPage <= 1) {
+
+
+
+$previousPage.addEventListener("click", async () => {
+  $resultSection.innerHTML = ""
+  $resultSection.innerHTML = `<1>loading</1>`
+  currentPage -= 1
+  $numeroPage.innerText = currentPage
+  if (currentPage < 1) {
     alert("Ya estás en la primera página. No puedes ir a una página anterior.");
-    return; 
+    return $resultSection.innerHTML = `<img class="" src="./style/img/fin.jpg">`;
   }
-    currentPage -=1
-    fetch(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
-      .then(res => res.json())
+  try {
+    const response = await axios(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
+
       .then(response => {
-  
-        const personajes = response.results;
+        const personajes = response.data.results;
         console.log(personajes)
         pintarDatos(personajes)
       })
-      .catch(error => {
-        console.log(error)
-        $
-      })
-    
-})
-$nextPage.addEventListener("click", () => {
-    currentPage +=1
-    fetch(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
-      .then(res => res.json())
-      .then(response => {
-  
-        const personajes = response.results;
-        console.log(personajes)
-        pintarDatos(personajes)
-      })
-      .catch(error => {
-        console.log(error)
-       /* $resultSection.innerHTML="";
-        $resultSection.innerHTML= `<img src="./style/img/error2.jpg">`*/
-      })
-   
+  } catch (error) {
+
+  }
 })
 
+$nextPage.addEventListener("click", async () => {
+  $resultSection.innerHTML = ""
+  $resultSection.innerHTML = `<1>loading</1>`
+  currentPage += 1
+  $numeroPage.innerText = currentPage
+  if (currentPage > 42) {
+    alert("Ya estás en la ultima página. No puedes ir a una página posterior.");
+    return $resultSection.innerHTML = `<img class="" src="./style/img/fin.jpg">`;
+  }
+  try {
+    const response = await axios(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
 
-
-
-
-window.onload = () => {
-    fetch("https://rickandmortyapi.com/api/character")
-      .then(res => res.json())
       .then(response => {
-  
-        const personajes = response.results
+
+        const personajes = response.data.results;
         console.log(personajes)
         pintarDatos(personajes)
       })
-      .catch(error => {
-        console.log(error)
-      })
-      pintarDatos(personajes)
+  } catch (error) {
+
   }
+
+})
+
+//----filtro episodio-----//
+/*$Episode.addEventListener("click", async () => {
+  $resultSection.innerHTML = ""
+  $resultSection.innerHTML = `<img class="" src="./style/img/fin.jpg">`
+ 
+
+  try {
+    const response = await axios(`https://rickandmortyapi.com/api/episode`)
+
+      .then(response => {
+
+        const personajes = response.data.results;
+        console.log(personajes)
+        pintarDatos(personajes)
+      })
+  } catch (error) {
+
+  }
+})*/
+
+
+
+
+
+
+window.onload = async () => {
+
+  try {
+    const response = await axios("https://rickandmortyapi.com/api/character/")
+
+      .then(response => {
+        const personajes = response.data.results
+        console.log(personajes)
+        pintarDatos(personajes)
+      })
+  } catch (error) {
+
+  }
+
+
   
+}
+
 
 
 

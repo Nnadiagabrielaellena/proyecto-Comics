@@ -5,7 +5,8 @@
       <meta charset="UTF-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <script src="https://cdn.jsdelivr.net/npm/js-md5@0.7.3/build/md5.min.js"></script>
+      
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
       <title>Document</title>
       <script src="https://kit.fontawesome.com/7505fbf04c.js" crossorigin="anonymous"></script>
 
@@ -52,7 +53,7 @@
                                     <select name="search-type" id="">
                                           <option value="comics">Personaje</option>
 
-                                          <option value="characters">Episodio</option>
+                                          <option id="Episode"value="Episode">Episodio</option>
                                     </select>
                                     <label for="search-sort">Orden</label>
                                     <select name="" id="search-sort">
@@ -126,7 +127,7 @@
                                     </div>
                                     <h3 class="comic-title min-h-24 bg-lime-50">titulo pelicula</h3>
                               </div>
-                              <h1 class=" text-2xl" id="numeroPage"></h1>
+
                         </div>
 
                   </section>
@@ -144,6 +145,7 @@
 
                               <i class="fa-solid fa-angles-right text-2xl md:text-4xl m-5 text-white"></i>
                         </button>
+                        <h1 class=" text-white text-2xl" id="numeroPage"></h1>
                   </div>
 
                   <div class="loader-container ">
