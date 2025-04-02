@@ -27,6 +27,15 @@ const $numeroPage = $("#numeroPage")
 
 const $Episode = $("#Episode")
 
+const $containCharacter = $("#containCharacter")
+
+const $pagination = $("#pagination")
+const $selectFiltro =$("#selectFiltro")
+
+
+
+
+
 
 //para acceder a u personaje especifico 
 //{{baseUrl}}/characters/idCharacter?ts={{ts}}&hash={{hash}}
@@ -35,47 +44,135 @@ const $Episode = $("#Episode")
 ///------boton de busqueda---//
 let currentPage = 1
 let pageMax = 0;
-console.log(pageMax)
+let personajes = []
+let datos = []
 
 $buttonSearch.addEventListener("click", async () => {
   $resultSection.innerHTML = "";
   $resultSection.innerHTML = `<h1>loading</h1>`
 
-
+  console.log(0)
   try {
-    const response = await axios(`https://rickandmortyapi.com/api/character?name=${$inputtextSearch.value}`, {
+    const { data } = await axios(`https://rickandmortyapi.com/api/character?name=${$inputtextSearch.value}`, {
     })
-      .then(response => {
-        console.log(response.data)
-        // pageMax = response.info.pages
-        console.log(response.data)
-        pintarDatos(response.data.results)
-        //agregar aqui el evento onclick
 
-      })
+//----obtener episodio de personaje----//
+async function obtenerPersonaje(){
+  try {
+    
+  }catch(error){
+    console.log(error)
+  }
+}
+
+//-----evento click para buscar episodio de personaje---//
+$selectFiltro.addEventListener("input",async()=>{
+  
+  try {
+    const {data}= await axios("https://rickandmortyapi.com/api/episode/3")
+
+//pintar
+//data
+const arrayPromises = data.episode.map(elem => axios(elem))
+const response = await Promise.all(arrayPromises)
+const arrayDetailEpisode = response.map(elem =>elem.data)
+console.log(arrayDetailEpisode)
+pintarDatos(personajes)
+  } catch (error) {
+    console.log(error)
+  }
+
+
+ 
+
+})
+
+
+
+    // pageMax = response.info.pages
+    console.log(data)
+    pintarDatos(data.results)
+
+    $resultSection.style.display = "block";
+        $containCharacter.style.display = "none";
+        $pagination.style.display = "none"
+
+    //agregar aqui el evento onclick
   } catch (error) {
     $resultSection.innerHTML = `<div><h1 class="text-white tex-2xl">no hay resultados</h1><img class="" src="./style/img/no.jpg"></div>`
     console.log(error)
   }
 })
 
+
+//----obtener datos----//
+async function obtenerDatos() {
+  console.log(2)
+  try {
+    const { data } = await axios("https://rickandmortyapi.com/api/character")
+    datos = data.results
+    console.log(datos)
+  } catch (error) {
+    
+  }
+ console.log(obtenerDatos)
+}
+
 //-----------pintar datos-------//
 function pintarDatos(array) {
   $resultSection.innerHTML = '';
-
+  
   for (const personaje of array) {
     $resultSection.innerHTML += ` <div class="flex-wrap comic sm: bg-black min-w-80 md:min-w-32 md:min-h-32  ">
         <div class="comic-img-container bg-black min-h-96  ">
-              <img class="" src="${personaje.image}" alt="">
+              <img class="img" id ="${personaje.id}" src="${personaje.image}" alt="">
         </div>
         <h1 class="comic-title min-h-24 bg-black text-white m-2">nombre :${personaje.name}</h1>
         <h3 class="comic-title min-h-24 bg-black text-white ">Genero:${personaje.gender === "Female" ? "Mujer" : "Hombre"}</h3>
         <h3 class="comic-title min-h-24 bg-black text-white ">Estado:${personaje.status === "alive" ? " Esta vivo" : " No esta vivo"}</h3>
         <h1 id="numeroPage"></h1>
   </div>`
-  }
 
+  }
+  const personajesDibujados = document.querySelectorAll('.img');
+  
+  personajesDibujados.forEach(elem => {
+    elem.addEventListener("click", async (event) => {
+
+      await obtenerDatos(elem.id)
+      
+
+      const clickId = event.target
+      try {
+        const { data } = await axios(`https://rickandmortyapi.com/api/character/${clickId.id}`, {
+
+          Authorization: ""
+        })
+        $containCharacter.innerHTML = ""
+        $containCharacter.innerHTML = `
+        <section id="containCharacter" class="containCharacter bg-white h-full w-full flex justify-center items-center text-2xl" >
+        <img src="${data.image}" alt="" class="character-portrait">
+        <div class="character-details">
+              <h2 class="name h-800">${data.name}</h2>
+              <h2 class="status">${data.status}</h2>
+              <h2 class="species">${data.species}</h2>
+              <h2 class="gender">${data.gender}</h2>
+
+        </div>
+  </section>`
+        $resultSection.style.display = "none";
+        $containCharacter.style.display = "block";
+        $pagination.style.display = "none"
+
+
+      } catch (error) {
+        console.log(error)
+
+      }
+    })
+  })
 }
+
 
 
 
@@ -87,15 +184,15 @@ $firstPage.addEventListener("click", async () => {
   $numeroPage.innerText = currentPage
 
   try {
-    const response = await axios(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
+    const { data } = await axios(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
 
-      .then(response => {
 
-        const personajes = response.data.results;
-        console.log(personajes)
-        pintarDatos(personajes)
 
-      })
+    const personajes = data.results;
+    console.log(personajes)
+    pintarDatos(personajes)
+
+
   } catch (error) {
 
   }
@@ -109,14 +206,14 @@ $lastPage.addEventListener("click", async () => {
   $numeroPage.innerText = currentPage
 
   try {
-    const response = await axios(`https://rickandmortyapi.com/api/character?page=42`)
+    const { data } = await axios(`https://rickandmortyapi.com/api/character?page=42`)
 
-      .then(response => {
 
-        const personajes = response.data.results;
-        console.log(personajes)
-        pintarDatos(personajes)
-      })
+
+    const personajes = data.results;
+    console.log(personajes)
+     pintarDatos(personajes)
+
   } catch (error) {
 
   }
@@ -135,13 +232,14 @@ $previousPage.addEventListener("click", async () => {
     return $resultSection.innerHTML = `<img class="" src="./style/img/fin.jpg">`;
   }
   try {
-    const response = await axios(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
+    const { data } = await axios(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
 
-      .then(response => {
-        const personajes = response.data.results;
-        console.log(personajes)
-        pintarDatos(personajes)
-      })
+
+
+    const personajes = response.data.results;
+    console.log(personajes)
+     pintarDatos(personajes)
+
   } catch (error) {
 
   }
@@ -157,14 +255,15 @@ $nextPage.addEventListener("click", async () => {
     return $resultSection.innerHTML = `<img class="" src="./style/img/fin.jpg">`;
   }
   try {
-    const response = await axios(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
+    const { data } = await axios(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
 
-      .then(response => {
 
-        const personajes = response.data.results;
-        console.log(personajes)
-        pintarDatos(personajes)
-      })
+
+    const personajes = data.results;
+
+    console.log(personajes)
+     pintarDatos(personajes)
+
   } catch (error) {
 
   }
@@ -172,46 +271,43 @@ $nextPage.addEventListener("click", async () => {
 })
 
 //----filtro episodio-----//
-/*$Episode.addEventListener("click", async () => {
-  $resultSection.innerHTML = ""
-  $resultSection.innerHTML = `<img class="" src="./style/img/fin.jpg">`
- 
+/* $Episode.addEventListener("change", async () => {
+ $resultSection.innerHTML = ""
+ $resultSection.innerHTML = `<img class="" src="./style/img/fin.jpg">`
 
-  try {
-    const response = await axios(`https://rickandmortyapi.com/api/episode`)
+try {
+   const response = await axios(`https://rickandmortyapi.com/api/episode?episode=${Episode.value}`)
 
-      .then(response => {
+     .then(response => {
 
-        const personajes = response.data.results;
-        console.log(personajes)
-        pintarDatos(personajes)
-      })
-  } catch (error) {
+       const personajes = response.data.results;
+       console.log(personajes)
+       pintarDatos(personajes)
+     })
+ } catch (error) {
 
-  }
-})*/
-
+ }
+})
+*/
 
 
 
 
 
 window.onload = async () => {
-
   try {
-    const response = await axios("https://rickandmortyapi.com/api/character/")
+   
+    const { data } = await axios("https://rickandmortyapi.com/api/character/")
+    const personajes = data.results
+    console.log(personajes)
+    pintarDatos(personajes)
 
-      .then(response => {
-        const personajes = response.data.results
-        console.log(personajes)
-        pintarDatos(personajes)
-      })
   } catch (error) {
 
   }
 
 
-  
+
 }
 
 

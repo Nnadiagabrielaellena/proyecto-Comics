@@ -50,17 +50,25 @@
                         <div class="search-inner-container relative">
                               <div class="sort-container">
                                     <label for="">Tipo</label>
-                                    <select name="search-type" id="">
+                                    <select  id="selectFiltro" name="search-type" id="">
                                           <option value="comics">Personaje</option>
 
-                                          <option id="Episode"value="Episode">Episodio</option>
+                                          <option value="Episode">Episodio</option>
                                     </select>
-                                    <label for="search-sort">Orden</label>
+                                    <label for="search-sort">Status</label>
                                     <select name="" id="search-sort">
-                                          <option value="title">A-Z</option>
-                                          <option value="title">Z-A</option>
-                                          <option value="focDate">Mas nuevos</option>
-                                          <option value="focDate">Mas viejos</option>
+                                          <option value="All">Todos</option>
+                                          <option value="Alive">Alive</option>
+                                          <option value="Dead">Dead</option>
+                                          
+                                    </select>
+                                    <label for="search-sort">Genero</label>
+                                    <select name="" id="search-sort">
+                                          <option value="All">todos</option>
+                                          <option value="Male">Hombre</option>
+                                          <option value="Female">Mujer</option>
+                                         
+                                          
                                     </select>
                               </div>
                               <button type="button"
@@ -83,7 +91,7 @@
                               <p class="comic-description"></p>
                         </div>
                   </section>
-                  <section class="character section hidden">
+                  <section id="containCharacter"class=" section  bg-red-100 h-full w-full"">
                         <img src="" alt="" class="character-portrait">
                         <div class="character-details">
                               <h2 class="character-name"></h2>
@@ -131,7 +139,7 @@
                         </div>
 
                   </section>
-                  <div class="pagination flex justify-center bg-black text-white min-h-24">
+                  <div id="pagination" class="pagination flex justify-center bg-black text-white min-h-24">
                         <button type="button" id="firstPage" class="first-page " aria-label="Pagina Previa">
                               <i class="fa-solid fa-angles-left text-2xl md:text-4xl m-5  text-white"></i>
                         </button>
