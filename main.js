@@ -6,65 +6,56 @@ fetch(`https://rickandmortyapi.com/api/character`)
   .catch(error => console.log(error))
 
 
-const $ = (element) => document.querySelector(element);
-const $$ = (element) => document.querySelector(element);
+  const $ = (element) => document.querySelector(element);
+  const $$ = (element) => document.querySelector(element);
+  
+  const $searchTitle = $("#search-title ");
+  const $searchSort = $("#search-sort ");
+  const $resultSection = $("#resultSection");
+  const $inputtextSearch = $("#input-text-search");
+  const $buttonSearch = $("#button-search");
+  
+  // Botones de paginación
+  const $firstPage = $("#firstPage ");
+  const $previousPage = $("#previousPage");
+  const $nextPage = $("#nextPage");
+  const $lastPage = $("#lastPage");
+  const $numeroPage = $("#numeroPage");
+  
+  const $Episode = $("#Episode");
+  const $containCharacter = $("#containCharacter");
+  const $pagination = $("#pagination");
+  const $selectFiltro = $("#selectFiltro");
+  
+  let currentPage = 1;
+  let pageMax = 0;
+  let personajes = [];
+  let datos = [];
 
 
 
-const $searchTitle = $("#search-title ");
-const $searchSort = $("#search-sort ");
-const $resultSection = $("#resultSection")
-
-const $inputtextSearch = $("#input-text-search")
-const $buttonSearch = $("#button-search")
-
-//---botones paginacion--//
-const $firstPage = $("#firstPage ");
-const $previousPage = $("#previousPage");
-const $nextPage = $("#nextPage")
-const $lastPage = $("#lastPage")
-const $numeroPage = $("#numeroPage")
-
-const $Episode = $("#Episode")
-
-const $containCharacter = $("#containCharacter")
-
-const $pagination = $("#pagination")
-const $selectFiltro = $("#selectFiltro")
 
 
 
 
 
 
-//para acceder a u personaje especifico 
-//{{baseUrl}}/characters/idCharacter?ts={{ts}}&hash={{hash}}
-//para acceder a detalle de comic
-//{{baseUrl}}/comics/idComic?ts={{ts}}&hash={{hash}}
-///------boton de busqueda---//
-let currentPage = 1
-let pageMax = 0;
-let personajes = []
-let datos = []
 
+
+
+
+
+////
 $buttonSearch.addEventListener("click", async () => {
   $resultSection.innerHTML = "";
   $resultSection.innerHTML = `<h1>loading</h1>`
 
-  
+  const personajeBuscado = $inputtextSearch.value;
+  const episodioSeleccionado = $selectFiltro.value;
   try {
-    const { data } = await axios(`https://rickandmortyapi.com/api/character?name=${$inputtextSearch.value}`, {
+    const { data } = await axios(`https://rickandmortyapi.com/api/character?name=${personajeBuscado}`, {
     })
 
-    //----obtener episodio de personaje----//
-    async function obtenerPersonaje() {
-      try {
-
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    console.log(data)
     pintarDatos(data.results)
 
     $resultSection.style.display = "block";
@@ -78,11 +69,11 @@ $buttonSearch.addEventListener("click", async () => {
   }
 })
 
-    //-----evento click para buscar episodio de personaje---//
-    /*$selectFiltro.addEventListener("input",async()=>{
+   ///-----evento click para buscar episodio de personaje---//
+    $selectFiltro.addEventListener("input",async()=>{
       
       try {
-        const {data}= await axios("https://rickandmortyapi.com/api/episode/3")
+        const {data}= await axios(`https://rickandmortyapi.com/api/episode/?${arrayDetailEpisode}`)
     
     //pintar
     //data
@@ -95,10 +86,8 @@ $buttonSearch.addEventListener("click", async () => {
         console.log(error)
       }
     
-    })*/
-    // Agregar un event listener al select para filtrar por episodio
-    // Agregar un event listener al select para filtrar por Personaje o Episodio
-
+    })
+    
 
 
 
@@ -207,10 +196,7 @@ $lastPage.addEventListener("click", async () => {
 
   try {
     const { data } = await axios(`https://rickandmortyapi.com/api/character?page=42`)
-
-
-
-    const personajes = data.results;
+ const personajes = data.results;
     console.log(personajes)
     pintarDatos(personajes)
 
@@ -293,8 +279,6 @@ $searchStatus.addEventListener("change", async()=>{
   }
   
 })
-
-
 
 
 
