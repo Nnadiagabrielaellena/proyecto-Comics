@@ -48,7 +48,7 @@ fetch(`https://rickandmortyapi.com/api/character`)
 ////
 $buttonSearch.addEventListener("click", async () => {
   $resultSection.innerHTML = "";
-  $resultSection.innerHTML = `<h1>loading</h1>`
+  $resultSection.innerHTML = `<div class="loader "></div>`
 
   const personajeBuscado = $inputtextSearch.value;
   const episodioSeleccionado = $selectFiltro.value;
@@ -71,7 +71,8 @@ $buttonSearch.addEventListener("click", async () => {
 
    ///-----evento click para buscar episodio de personaje---//
     $selectFiltro.addEventListener("input",async()=>{
-      
+      $resultSection.innerHTML = "";
+      $resultSection.innerHTML = `<div class="loader "></div>`
       try {
         const {data}= await axios(`https://rickandmortyapi.com/api/episode/?${arrayDetailEpisode}`)
     
@@ -262,8 +263,8 @@ const $searchStatus =$("#search-status")
 
 $searchStatus.addEventListener("change", async()=>{
 
-  $resultSection.innerHTML = ""
-  $resultSection.innerHTML = `<1>loading</1>`
+  $resultSection.innerHTML = "";
+  $resultSection.innerHTML = `<div class="loader "></div>`
 
   inputPersonajeStatus= $searchStatus.value
   console.log(inputPersonajeStatus)
