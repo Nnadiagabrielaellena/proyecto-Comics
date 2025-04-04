@@ -45,15 +45,15 @@ fetch(`https://rickandmortyapi.com/api/character`)
 
 
 
-////
+
 $buttonSearch.addEventListener("click", async () => {
   $resultSection.innerHTML = "";
-  $resultSection.innerHTML = `<div class="loader "></div>`
+  $resultSection.innerHTML = `<div class="loader ">Loading..</div>`
 
   const personajeBuscado = $inputtextSearch.value;
   const episodioSeleccionado = $selectFiltro.value;
   try {
-    const { data } = await axios(`https://rickandmortyapi.com/api/character?name=${personajeBuscado}`, {
+    const { data } = await axios(`https://rickandmortyapi.com/api/${tipoBusqueda}?name=${personajeBuscado}`, {
     })
 
     pintarDatos(data.results)
@@ -67,39 +67,51 @@ $buttonSearch.addEventListener("click", async () => {
     $resultSection.innerHTML = `<div><h1 class="text-white tex-2xl">no hay resultados</h1><img class="" src="./style/img/no.jpg"></div>`
     console.log(error)
   }
-})
+})  
 
    ///-----evento click para buscar episodio de personaje---//
-    $selectFiltro.addEventListener("input",async()=>{
+   /*let tipoBusqueda = "character"
+
+    $selectFiltro.addEventListener("input",(e)=>{
+      console.log(7)
       $resultSection.innerHTML = "";
-      $resultSection.innerHTML = `<div class="loader "></div>`
+      $resultSection.innerHTML = `<div class="h-full w-full flex justify-center items-center loader ">Loading...</div>`
+      if(e.value){
+        tipoBusqueda= "character"
+      }else{
+        tipoBusqueda = "episode"
+      }
       try {
-        const {data}= await axios(`https://rickandmortyapi.com/api/episode/?${arrayDetailEpisode}`)
-    
-    //pintar
-    //data
-    const arrayPromises = data.episode.map(elem => axios(elem))
-    const response = await Promise.all(arrayPromises)
-    const arrayDetailEpisode = response.map(elem =>elem.data)
-    console.log(arrayDetailEpisode)
-    pintarDatos(personajes)
+        obtenerDatos(tipoBusqueda) 
+        pintarDatos(personajes)
       } catch (error) {
         console.log(error)
       }
-    
+      
+
     })
+    //pintar
+    //data
+    const arrayPromises = data.episode.map(elem => axios(elem))
+    const response =  Promise.all(arrayPromises)
+    const arrayDetailEpisode = response.map(elem =>elem.data)
+    console.log(arrayDetailEpisode)
+    pintarDatos(personajes)
+      
+    
+    
     
 
 
 
-    // pageMax = response.info.pages
+    */
 
 
 //----obtener datos----//
-async function obtenerDatos() {
+async function obtenerDatos(tipo) {
   console.log(2)
   try {
-    const { data } = await axios("https://rickandmortyapi.com/api/character")
+    const { data } = await axios(`https://rickandmortyapi.com/api/${tipo}`)
     datos = data.results
     console.log(datos)
   } catch (error) {
