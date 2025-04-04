@@ -146,8 +146,8 @@ function pintarDatos(array) {
   for (const personaje of array) {
     $resultSection.innerHTML += `
    
-    <div class=" columnw-full flex-wrap  comic sm: bg-black min-w-80 md:min-w-32 md:min-h-15    justify-center items-center ">
-        <div class="comic-img-container ">
+    <div class=" columnw-full flex-wrap  comic sm: bg-black min-w-80 md:min-w-32 md:min-h-15    justify-center items-center m-8  ">
+        <div class="comic-img-container m-8 ">
               <img class="img" id ="${personaje.id}" src="${personaje.image}" alt="">
         </div>
         <h1 class="comic-title min-h-24 bg-black text-white m-2">nombre :${personaje.name}</h1>
