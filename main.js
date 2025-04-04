@@ -48,12 +48,12 @@ fetch(`https://rickandmortyapi.com/api/character`)
 
 $buttonSearch.addEventListener("click", async () => {
   $resultSection.innerHTML = "";
-  $resultSection.innerHTML = `<div class="loader ">Loading..</div>`
+  $resultSection.innerHTML =`<div class="loader "></div>`
 
   const personajeBuscado = $inputtextSearch.value;
   const episodioSeleccionado = $selectFiltro.value;
   try {
-    const { data } = await axios(`https://rickandmortyapi.com/api/${tipoBusqueda}?name=${personajeBuscado}`, {
+    const { data } = await axios(`https://rickandmortyapi.com/api/character?name=${personajeBuscado}`, {
     })
 
     pintarDatos(data.results)
@@ -181,7 +181,7 @@ function pintarDatos(array) {
 //---------botones de paginacion--------//
 $firstPage.addEventListener("click", async () => {
   $resultSection.innerHTML = ""
-  $resultSection.innerHTML = `<div><img class="" src="./style/img/fin.jpg"></div>`
+  $resultSection.innerHTML = `<div class="loader "></div>`
   currentPage = 1
   $numeroPage.innerText = currentPage
 
@@ -202,7 +202,7 @@ $firstPage.addEventListener("click", async () => {
 
 $lastPage.addEventListener("click", async () => {
   $resultSection.innerHTML = ""
-  $resultSection.innerHTML = `<img class="" src="./style/img/fin.jpg">`
+  $resultSection.innerHTML = `<div class="loader "></div>`
   currentPage = 42
   console.log(currentPage)
   $numeroPage.innerText = currentPage
@@ -223,7 +223,7 @@ $lastPage.addEventListener("click", async () => {
 
 $previousPage.addEventListener("click", async () => {
   $resultSection.innerHTML = ""
-  $resultSection.innerHTML = `<1>loading</1>`
+  $resultSection.innerHTML = `<div class="loader "></div>`
   currentPage -= 1
   $numeroPage.innerText = currentPage
   if (currentPage < 1) {
@@ -235,7 +235,7 @@ $previousPage.addEventListener("click", async () => {
 
 
 
-    const personajes = response.data.results;
+    const personajes = data.results;
     console.log(personajes)
     pintarDatos(personajes)
 
@@ -246,7 +246,7 @@ $previousPage.addEventListener("click", async () => {
 
 $nextPage.addEventListener("click", async () => {
   $resultSection.innerHTML = ""
-  $resultSection.innerHTML = `<1>loading</1>`
+  $resultSection.innerHTML = `<div class="loader "></div>`
   currentPage += 1
   $numeroPage.innerText = currentPage
   if (currentPage > 42) {
