@@ -6,31 +6,31 @@ fetch(`https://rickandmortyapi.com/api/character`)
   .catch(error => console.log(error))
 
 
-  const $ = (element) => document.querySelector(element);
-  const $$ = (element) => document.querySelector(element);
-  
-  const $searchTitle = $("#search-title ");
-  const $searchSort = $("#search-sort ");
-  const $resultSection = $("#resultSection");
-  const $inputtextSearch = $("#input-text-search");
-  const $buttonSearch = $("#button-search");
-  
-  // Botones de paginación
-  const $firstPage = $("#firstPage ");
-  const $previousPage = $("#previousPage");
-  const $nextPage = $("#nextPage");
-  const $lastPage = $("#lastPage");
-  const $numeroPage = $("#numeroPage");
-  
-  const $Episode = $("#Episode");
-  const $containCharacter = $("#containCharacter");
-  const $pagination = $("#pagination");
-  const $selectFiltro = $("#selectFiltro");
-  
-  let currentPage = 1;
-  let pageMax = 0;
-  let personajes = [];
-  let datos = [];
+const $ = (element) => document.querySelector(element);
+const $$ = (element) => document.querySelector(element);
+
+const $searchTitle = $("#search-title ");
+const $searchSort = $("#search-sort ");
+const $resultSection = $("#resultSection");
+const $inputtextSearch = $("#input-text-search");
+const $buttonSearch = $("#button-search");
+
+// Botones de paginación
+const $firstPage = $("#firstPage ");
+const $previousPage = $("#previousPage");
+const $nextPage = $("#nextPage");
+const $lastPage = $("#lastPage");
+const $numeroPage = $("#numeroPage");
+
+const $Episode = $("#Episode");
+const $containCharacter = $("#containCharacter");
+const $pagination = $("#pagination");
+const $selectFiltro = $("#selectFiltro");
+
+let currentPage = 1;
+let pageMax = 0;
+let personajes = [];
+let datos = [];
 
 
 
@@ -48,7 +48,7 @@ fetch(`https://rickandmortyapi.com/api/character`)
 
 $buttonSearch.addEventListener("click", async () => {
   $resultSection.innerHTML = "";
-  $resultSection.innerHTML =`<div class="loader "></div>`
+  $resultSection.innerHTML = `<div class="loader "></div>`
 
   const personajeBuscado = $inputtextSearch.value;
   const episodioSeleccionado = $selectFiltro.value;
@@ -67,44 +67,44 @@ $buttonSearch.addEventListener("click", async () => {
     $resultSection.innerHTML = `<div><h1 class="text-white tex-2xl">no hay resultados</h1><img class="" src="./style/img/no.jpg"></div>`
     console.log(error)
   }
-})  
+})
 
-   ///-----evento click para buscar episodio de personaje---//
-   /*let tipoBusqueda = "character"
+///-----evento click para buscar episodio de personaje---//
+/*let tipoBusqueda = "character"
 
-    $selectFiltro.addEventListener("input",(e)=>{
-      console.log(7)
-      $resultSection.innerHTML = "";
-      $resultSection.innerHTML = `<div class="h-full w-full flex justify-center items-center loader ">Loading...</div>`
-      if(e.value){
-        tipoBusqueda= "character"
-      }else{
-        tipoBusqueda = "episode"
-      }
-      try {
-        obtenerDatos(tipoBusqueda) 
-        pintarDatos(personajes)
-      } catch (error) {
-        console.log(error)
-      }
-      
+ $selectFiltro.addEventListener("input",(e)=>{
+   console.log(7)
+   $resultSection.innerHTML = "";
+   $resultSection.innerHTML = `<div class="h-full w-full flex justify-center items-center loader ">Loading...</div>`
+   if(e.value){
+     tipoBusqueda= "character"
+   }else{
+     tipoBusqueda = "episode"
+   }
+   try {
+     obtenerDatos(tipoBusqueda) 
+     pintarDatos(personajes)
+   } catch (error) {
+     console.log(error)
+   }
+   
 
-    })
-    //pintar
-    //data
-    const arrayPromises = data.episode.map(elem => axios(elem))
-    const response =  Promise.all(arrayPromises)
-    const arrayDetailEpisode = response.map(elem =>elem.data)
-    console.log(arrayDetailEpisode)
-    pintarDatos(personajes)
-      
-    
-    
-    
+ })
+ //pintar
+ //data
+ const arrayPromises = data.episode.map(elem => axios(elem))
+ const response =  Promise.all(arrayPromises)
+ const arrayDetailEpisode = response.map(elem =>elem.data)
+ console.log(arrayDetailEpisode)
+ pintarDatos(personajes)
+   
+ 
+ 
+ 
 
 
 
-    */
+ */
 
 
 //----obtener datos----//
@@ -132,8 +132,15 @@ function pintarDatos(array) {
               <img class="img" id ="${personaje.id}" src="${personaje.image}" alt="">
         </div>
         <h1 class="comic-title min-h-24 bg-black text-white m-2">nombre :${personaje.name}</h1>
-        <h3 class="comic-title min-h-24 bg-black text-white ">Genero:${personaje.gender === "Female" ? "Mujer" : "Hombre"}</h3>
-        <h3 class="comic-title min-h-24 bg-black text-white ">Estado:${personaje.status === "alive" ? " Esta vivo" : " No esta vivo"}</h3>
+        <h3 class="comic-title min-h-24 bg-black text-white ">Genero:${personaje.gender === "female" ? "Mujer" : "Hombre"}</h3>
+        <h3 class="comic-title min-h-24 bg-black text-white ">Estado: ${personaje.status === "Alive" 
+        ? "Está vivo" 
+        : personaje.status === "Dead" 
+        ? "No está vivo" 
+        : personaje.status === "unknown" 
+        ? "Estado desconocido" 
+        : "Estado no especificado"
+      }</h3>
         <h1 id="numeroPage"></h1>
   </div>`
 
@@ -172,32 +179,33 @@ function pintarDatos(array) {
         $resultSection.style.display = "none";
         $containCharacter.style.display = "block";
         $pagination.style.display = "none"
-        const $buttonReturn= $("#buttonReturn")
+        const $buttonReturn = $("#buttonReturn")
 
-$buttonReturn.addEventListener("click", async () => {
-  console.log($buttonReturn)
-  $resultSection.innerHTML = ""
-  $resultSection.innerHTML = `<div class="loader "></div>`
-  currentPage = 1
-  $numeroPage.innerText = currentPage
+        $buttonReturn.addEventListener("click", async () => {
+          console.log($buttonReturn)
+          $resultSection.innerHTML = ""
+          $resultSection.innerHTML = `<div class="loader "></div>`
+          currentPage = 1
+          $numeroPage.innerText = currentPage
 
-  try {
-    const { data } = await axios(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
-
-
-
-    const personajes = data.results;
-    console.log(personajes)
-    $resultSection.style.display = "block";
-    $containCharacter.style.display = "none";
-   
-    pintarDatos(personajes)
+          try {
+            const { data } = await axios(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
 
 
-  } catch (error) {
 
-  }
-})
+            const personajes = data.results;
+            console.log(personajes)
+            $resultSection.style.display = "block";
+            $pagination.style.display = "block"
+            $containCharacter.style.display = "none";
+
+            pintarDatos(personajes)
+
+
+          } catch (error) {
+            console.log(error)
+          }
+        })
 
 
 
@@ -244,7 +252,7 @@ $lastPage.addEventListener("click", async () => {
 
   try {
     const { data } = await axios(`https://rickandmortyapi.com/api/character?page=42`)
- const personajes = data.results;
+    const personajes = data.results;
     console.log(personajes)
     pintarDatos(personajes)
 
@@ -306,33 +314,34 @@ $nextPage.addEventListener("click", async () => {
 
 //----filtro por status-----//
 
-const $searchStatus =$("#search-status")
+const $searchStatus = $("#search-status")
 
-$searchStatus.addEventListener("change", async()=>{
+$searchStatus.addEventListener("change", async () => {
   console.log($searchStatus)
 
   $resultSection.innerHTML = "";
   $resultSection.innerHTML = `<div class="loader "></div>`
-
-  inputPersonajeStatus= $searchStatus.value
+  const personajeBuscado = $inputtextSearch.value;
+  const inputPersonajeStatus = $searchStatus.value
   console.log(inputPersonajeStatus)
   try {
-    const {data}=  await axios(`https://rickandmortyapi.com/api/character/?name=${personajeBuscado}rick&status=${inputPersonajeStatus}`)
-    
-   
+    const { data } = await axios(`https://rickandmortyapi.com/api/character/?status=${inputPersonajeStatus}`)
+
+    console.log(data)
     console.log(7)
     $resultSection.style.display = "block";
     $containCharacter.style.display = "none";
     $pagination.style.display = "none"
-    pintarDatos(data.results)
 
-    $resultSection.style.display = "block";
-    $containCharacter.style.display = "none";
-    $pagination.style.display = "none"
+
+    const personajes = data.results;
+    console.log(personajes)
+    pintarDatos(personajes)
+
   } catch (error) {
     console.log(error)
   }
-  
+
 })
 
 
@@ -348,7 +357,7 @@ window.onload = async () => {
     const personajes = data.results
     console.log(personajes)
     pintarDatos(personajes)
-    
+
 
   } catch (error) {
 
