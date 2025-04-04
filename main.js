@@ -25,7 +25,7 @@ const $numeroPage = $("#numeroPage");
 const $Episode = $("#Episode");
 const $containCharacter = $("#containCharacter");
 const $pagination = $("#pagination");
-const $selectFiltro = $("#selectFiltro");
+
 
 let currentPage = 1;
 let pageMax = 0;
@@ -51,7 +51,7 @@ $buttonSearch.addEventListener("click", async () => {
   $resultSection.innerHTML = `<div class="loader "></div>`
 
   const personajeBuscado = $inputtextSearch.value;
-  const episodioSeleccionado = $selectFiltro.value;
+
   try {
     const { data } = await axios(`https://rickandmortyapi.com/api/character?name=${personajeBuscado}`, {
     })
@@ -70,54 +70,69 @@ $buttonSearch.addEventListener("click", async () => {
 })
 
 ///-----evento click para buscar episodio de personaje---//
-/*let tipoBusqueda = "character"
+let tipoBusqueda = "character"
 
- $selectFiltro.addEventListener("input",(e)=>{
-   console.log(7)
-   $resultSection.innerHTML = "";
-   $resultSection.innerHTML = `<div class="h-full w-full flex justify-center items-center loader ">Loading...</div>`
-   if(e.value){
-     tipoBusqueda= "character"
-   }else{
-     tipoBusqueda = "episode"
-   }
-   try {
-     obtenerDatos(tipoBusqueda) 
-     pintarDatos(personajes)
-   } catch (error) {
-     console.log(error)
-   }
-   
+const $selectFiltro = $("#selectFiltro");
+console.log(tipoBusqueda)
+$selectFiltro.addEventListener("change", async (e) => {
 
- })
- //pintar
- //data
- const arrayPromises = data.episode.map(elem => axios(elem))
- const response =  Promise.all(arrayPromises)
- const arrayDetailEpisode = response.map(elem =>elem.data)
- console.log(arrayDetailEpisode)
- pintarDatos(personajes)
-   
- 
- 
- 
+  $resultSection.innerHTML = "";
+  $resultSection.innerHTML = `<div class="h-full w-full flex justify-center items-center loader ">Loading...</div>`
+  const selectedValue = e.target.value;  // Obtener el valor seleccionado
+
+  if (selectedValue === "character") {
+    tipoBusqueda = "character";
+  } else {
+    tipoBusqueda = "episode";
+  }
+
+  try {
+    const { data } = await axios(`https://rickandmortyapi.com/api/${tipoBusqueda}`)
 
 
+   const personajes = data.results;
+   console.log(personajes)
+   $resultSection.style.display = "block";
+   $pagination.style.display = "block"
+   $containCharacter.style.display = "none";
 
- */
+   pintarDatos(personajes)
+
+  } catch (error) {
+    console.log(error)
+  }
+
+
+
+})
+/*//pintar
+//data
+const arrayPromises = data.episode.map(elem => axios(elem))
+const response =  Promise.all(arrayPromises)
+const arrayDetailEpisode = response.map(elem =>elem.data)
+console.log(arrayDetailEpisode)
+pintarDatos(personajes)*/
+
+
+
+
+
+
+
+
 
 
 //----obtener datos----//
-async function obtenerDatos(tipo) {
-  console.log(2)
+async function obtenerDatos(tipoBusqueda) {
+
   try {
-    const { data } = await axios(`https://rickandmortyapi.com/api/${tipo}`)
+    const { data } = await axios(`https://rickandmortyapi.com/api/${tipoBusqueda}`)
     datos = data.results
     console.log(datos)
   } catch (error) {
 
   }
-  console.log(obtenerDatos)
+
 }
 
 //-----------pintar datos-------//
@@ -127,8 +142,10 @@ function pintarDatos(array) {
   $resultSection.innerHTML = '';
 
   for (const personaje of array) {
-    $resultSection.innerHTML += ` <div class="flex-wrap comic sm: bg-black min-w-80 md:min-w-32 md:min-h-32  ">
-        <div class="comic-img-container bg-black min-h-96  ">
+    $resultSection.innerHTML += `
+    <div class="">
+    <div class="  flex-wrap  comic sm: bg-black min-w-80 md:min-w-32 md:min-h-15  ">
+        <div class="comic-img-container ">
               <img class="img" id ="${personaje.id}" src="${personaje.image}" alt="">
         </div>
         <h1 class="comic-title min-h-24 bg-black text-white m-2">nombre :${personaje.name}</h1>
@@ -151,6 +168,7 @@ function pintarDatos(array) {
             : "Estado no especificado"
       }</h3>
         <h1 id="numeroPage"></h1>
+  </div>
   </div>`
 
   }
@@ -170,7 +188,7 @@ function pintarDatos(array) {
         })
         $containCharacter.innerHTML = ""
         $containCharacter.innerHTML = `
-        <section id="containCharacter" class="containCharacter bg-white h-full w-full flex justify-center items-center text-2xl" >
+        <section id="containCharacter" class="containCharacter bg-white h-full w-full flex justify-center items-center text-2xl flex-wrap  " >
         <img src="${data.image}" alt="" class="character-portrait">
         <div class="character-details">
               <h2 class="name h-800">${data.name}</h2>
@@ -189,6 +207,8 @@ function pintarDatos(array) {
         $containCharacter.style.display = "block";
         $pagination.style.display = "none"
         const $buttonReturn = $("#buttonReturn")
+
+        //----boton volver----///
 
         $buttonReturn.addEventListener("click", async () => {
           console.log($buttonReturn)
@@ -225,7 +245,7 @@ function pintarDatos(array) {
     })
   })
 }
-//----boton volver de imagen filtrada---//
+
 
 
 //---------botones de paginacion--------//
@@ -269,9 +289,6 @@ $lastPage.addEventListener("click", async () => {
 
   }
 })
-
-
-
 
 $previousPage.addEventListener("click", async () => {
   $resultSection.innerHTML = ""
@@ -330,11 +347,11 @@ $searchStatus.addEventListener("change", async () => {
 
   $resultSection.innerHTML = "";
   $resultSection.innerHTML = `<div class="loader "></div>`
-  const personajeBuscado = $inputtextSearch.value;
+
   const inputPersonajeStatus = $searchStatus.value
   console.log(inputPersonajeStatus)
   try {
-    const { data } = await axios(`https://rickandmortyapi.com/api/character/?status=${inputPersonajeStatus}`)
+    const { data } = await axios(`https://rickandmortyapi.com/api/character/?&status=${inputPersonajeStatus}`)
 
     console.log(data)
     console.log(7)
@@ -356,20 +373,20 @@ $searchStatus.addEventListener("change", async () => {
 //-----FILTRO POR GENERO ----///
 
 const $selectGender = $("#selectGender")
-
+const inputPersonajeStatus = $searchStatus.value
 $selectGender.addEventListener("change", async () => {
   console.log($selectGender)
- 
- 
+
+
   $resultSection.innerHTML = "";
   $resultSection.innerHTML = `<div class="loader "></div>`
-  const personajeBuscado = $inputtextSearch.value;
+
   const inputGender = $selectGender.value
   console.log(inputGender)
   try {
-    const { data } = await axios(`https://rickandmortyapi.com/api/character/?gender=${inputGender}`)
-    
-   
+    const { data } = await axios(`https://rickandmortyapi.com/api/character/?gender=${inputGender}&status=${inputPersonajeStatus}`)
+
+
 
     console.log(data)
     console.log(7)
@@ -401,10 +418,8 @@ window.onload = async () => {
 
 
   } catch (error) {
-
+    console.log(error)
   }
-
-
 
 }
 
