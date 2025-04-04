@@ -72,13 +72,15 @@ $buttonSearch.addEventListener("click", async () => {
 ///-----evento click para buscar episodio de personaje---//
 let tipoBusqueda = "character"
 
+
+
 const $selectFiltro = $("#selectFiltro");
 console.log(tipoBusqueda)
 $selectFiltro.addEventListener("change", async (e) => {
 
   $resultSection.innerHTML = "";
   $resultSection.innerHTML = `<div class="h-full w-full flex justify-center items-center loader ">Loading...</div>`
-  const selectedValue = e.target.value;  // Obtener el valor seleccionado
+  const selectedValue = e.target.value;
 
   if (selectedValue === "character") {
     tipoBusqueda = "character";
@@ -90,13 +92,13 @@ $selectFiltro.addEventListener("change", async (e) => {
     const { data } = await axios(`https://rickandmortyapi.com/api/${tipoBusqueda}`)
 
 
-   const personajes = data.results;
-   console.log(personajes)
-   $resultSection.style.display = "block";
-   $pagination.style.display = "block"
-   $containCharacter.style.display = "none";
+    const personajes = data.results;
+    console.log(personajes)
+    $resultSection.style.display = "block";
+    $pagination.style.display = "block"
+    $containCharacter.style.display = "none";
 
-   pintarDatos(personajes)
+    pintarDatos(personajes)
 
   } catch (error) {
     console.log(error)
@@ -143,8 +145,8 @@ function pintarDatos(array) {
 
   for (const personaje of array) {
     $resultSection.innerHTML += `
-    <div class="">
-    <div class="  flex-wrap  comic sm: bg-black min-w-80 md:min-w-32 md:min-h-15  ">
+   
+    <div class=" columnw-full flex-wrap  comic sm: bg-black min-w-80 md:min-w-32 md:min-h-15    justify-center items-center ">
         <div class="comic-img-container ">
               <img class="img" id ="${personaje.id}" src="${personaje.image}" alt="">
         </div>
@@ -169,7 +171,7 @@ function pintarDatos(array) {
       }</h3>
         <h1 id="numeroPage"></h1>
   </div>
-  </div>`
+  `
 
   }
   const personajesDibujados = document.querySelectorAll('.img');
