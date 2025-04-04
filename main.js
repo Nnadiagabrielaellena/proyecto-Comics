@@ -132,14 +132,23 @@ function pintarDatos(array) {
               <img class="img" id ="${personaje.id}" src="${personaje.image}" alt="">
         </div>
         <h1 class="comic-title min-h-24 bg-black text-white m-2">nombre :${personaje.name}</h1>
-        <h3 class="comic-title min-h-24 bg-black text-white ">Genero:${personaje.gender === "female" ? "Mujer" : "Hombre"}</h3>
-        <h3 class="comic-title min-h-24 bg-black text-white ">Estado: ${personaje.status === "Alive" 
-        ? "Está vivo" 
-        : personaje.status === "Dead" 
-        ? "No está vivo" 
-        : personaje.status === "unknown" 
-        ? "Estado desconocido" 
-        : "Estado no especificado"
+        <h3 class="comic-title min-h-24 bg-black text-white ">Genero:  ${personaje.gender === "Female"
+        ? "Mujer"
+        : personaje.gender === "Male"
+          ? "Hombre"
+          : personaje.gender === "Genderless"
+            ? "Sin género"
+            : personaje.gender === "Unknown"
+              ? "Género desconocido"
+              : "Género no especificado"
+      }</h3>
+        <h3 class="comic-title min-h-24 bg-black text-white ">Estado: ${personaje.status === "Alive"
+        ? "Está vivo"
+        : personaje.status === "Dead"
+          ? "No está vivo"
+          : personaje.status === "Unknown"
+            ? "Estado desconocido"
+            : "Estado no especificado"
       }</h3>
         <h1 id="numeroPage"></h1>
   </div>`
@@ -344,8 +353,40 @@ $searchStatus.addEventListener("change", async () => {
 
 })
 
+//-----FILTRO POR GENERO ----///
+
+const $selectGender = $("#selectGender")
+
+$selectGender.addEventListener("change", async () => {
+  console.log($selectGender)
+ 
+ 
+  $resultSection.innerHTML = "";
+  $resultSection.innerHTML = `<div class="loader "></div>`
+  const personajeBuscado = $inputtextSearch.value;
+  const inputGender = $selectGender.value
+  console.log(inputGender)
+  try {
+    const { data } = await axios(`https://rickandmortyapi.com/api/character/?gender=${inputGender}`)
+    
+   
+
+    console.log(data)
+    console.log(7)
+    $resultSection.style.display = "block";
+    $containCharacter.style.display = "none";
+    $pagination.style.display = "none"
 
 
+    const personajes = data.results;
+    console.log(personajes)
+    pintarDatos(personajes)
+
+  } catch (error) {
+    console.log(error)
+  }
+
+})
 
 
 
