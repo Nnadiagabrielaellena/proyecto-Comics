@@ -22,7 +22,7 @@ const $numeroPage = $("#numeroPage");
 const $Episode = $("#Episode");
 const $containCharacter = $("#containCharacter");
 const $pagination = $("#pagination");
-
+const charactersSection =$("#charactersSection")
 
 let currentPage = 1;
 let pageMax = 0;
@@ -48,7 +48,7 @@ $buttonSearch.addEventListener("click", async () => {
     $containCharacter.style.display = "none";
     $pagination.style.display = "none"
 
-    //agregar aqui el evento onclick
+   
   } catch (error) {
     $resultSection.innerHTML = `<div><h1 class="text-white tex-2xl">no hay resultados</h1><img class="" src="./style/img/no.jpg"></div>`
     console.log(error)
@@ -105,21 +105,6 @@ $selectFiltro.addEventListener("change", async (e) => {
 
 
 })
-/*//pintar
-//data
-const arrayPromises = data.episode.map(elem => axios(elem))
-const response =  Promise.all(arrayPromises)
-const arrayDetailEpisode = response.map(elem =>elem.data)
-console.log(arrayDetailEpisode)
-pintarDatos(personajes)*/
-
-
-
-
-
-
-
-
 
 
 //----obtener datos----//
@@ -127,12 +112,7 @@ async function obtenerDatos(tipoBusqueda) {
 
   try {
     const { data } = await axios(`https://rickandmortyapi.com/api/character`)
-    
-   
-  
-
-
-    console.log(datos)
+     console.log(datos)
   } catch (error) {
     console.log(error)
   }
@@ -148,7 +128,7 @@ function pintarDatos(array) {
   for (const personaje of array) {
     $resultSection.innerHTML += `
    
-    <div class=" column w-full flex-wrap  comic sm: bg-black min-w-80 md:min-w-32 md:min-h-15    justify-center items-center m-8  ">
+    <div class="relative column w-full flex-wrap  comic sm: bg-black min-w-80 md:min-w-32 md:min-h-15    justify-center items-center m-8  ">
         <div class="comic-img-container m-8 ">
               <img class="img" id ="${personaje.id}" src="${personaje.image}" alt="">
         </div>
@@ -193,7 +173,7 @@ function pintarDatos(array) {
         const arrayPromises = data.episode.map(elem => axios(elem))
         console.log(elem)
         const response = await Promise.all(arrayPromises)
-        // Extraer los nombres de los episodios de la respuesta
+       
       const arrayDetailEpisode = response.map(ep => ep.data.name);
       
       console.log(arrayDetailEpisode);
@@ -202,10 +182,10 @@ function pintarDatos(array) {
 
         $containCharacter.innerHTML = ""
         $containCharacter.innerHTML = `
-        <section id="containCharacter" class="containCharacter bg-white h-full w-full flex justify-center items-center text-2xl flex-wrap  " >
+        <section id="containCharacter" class=" containCharacter bg-white h-full w-full flex justify-center items-center text-2xl flex-wrap  " >
         <img src="${data.image}" alt="" class="character-portrait">
         <div class="character-details bg-white h-full w-full  justify-center items-center text-2xl flex-wrap">
-              <h2 class="name h-800 ">${data.name} </h2>
+              <h2 class="name h-800  h-full w-full flex justify-center items-center ">${data.name} </h2>
               <h2 class="status">${data.status}</h2>
               <h2 class="species">${data.species}</h2>
               <h2 class="gender">${data.gender}</h2>
@@ -215,15 +195,60 @@ function pintarDatos(array) {
         </button>
               </div>
               <div>Episodios</div>
-              <div class="flex flex-col   justify-center items-center m-8">${arrayDetailEpisode}</div>
+              <div class="flex flex-col   justify-center items-center m-8">
+              ${arrayDetailEpisode.map((episode, index) => `
+              <button class="episode-btn" data-index="${index}">${episode}</button>
+            `).join('')}</div>
 
         </div>
   </section>`
         $resultSection.style.display = "none";
         $containCharacter.style.display = "block";
         $pagination.style.display = "none"
-        const $buttonReturn = $("#buttonReturn")
+        $buttonReturn = $("#buttonReturn")
 
+//---------boton para obtener personajes de episodio---//
+       
+        const episodeButtons = document.querySelectorAll('.episode-btn');
+        const $charactersSection =$("#charactersSection")
+
+        episodeButtons.forEach((button) => {
+          button.addEventListener('click', async (event) => {
+            const episodeIndex = event.target.dataset.index;
+            const episodeUrl = data.episode[episodeIndex];
+      
+            try {
+              const episodeResponse = await axios(episodeUrl);
+              const characterUrls = episodeResponse.data.characters;
+      
+            
+              const characterPromises = characterUrls.map(url => axios(url));
+              const characterResponse = await Promise.all(characterPromises);
+      
+             
+              const characterNames = characterResponse.map(character => character.data.name);
+      
+             
+              const charactersList = characterNames.map(name => `<p>${name}</p>`).join('');
+              
+              $charactersSection.innerHTML = `
+                <h3 class="text-white text-2xl m-8">Personajes en este episodio:</h3>
+                <div class="text-white">${charactersList}</div>
+              `;
+      
+              $resultSection.style.display = "none";
+              $containCharacter.style.display = "none";
+              $charactersSection.style.display="block"
+
+
+              $pagination.style.display = "none"
+            } catch (error) {
+              console.error('Error al obtener los personajes:', error);
+            }
+          });
+        });
+      
+     
         //----boton volver----///
 
         $buttonReturn.addEventListener("click", async () => {
@@ -244,7 +269,7 @@ function pintarDatos(array) {
             $pagination.style.display = "block"
             $containCharacter.style.display = "none";
 
-            pintarDatos(personajes)
+            pintarDatos(array)
 
 
           } catch (error) {
