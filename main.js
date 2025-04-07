@@ -1,9 +1,6 @@
 
 
-fetch(`https://rickandmortyapi.com/api/character`)
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(error => console.log(error))
+
 
 
 const $ = (element) => document.querySelector(element);
@@ -34,18 +31,6 @@ let datos = [];
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 $buttonSearch.addEventListener("click", async () => {
   $resultSection.innerHTML = "";
   $resultSection.innerHTML = `<div class="loader "></div>`
@@ -55,6 +40,7 @@ $buttonSearch.addEventListener("click", async () => {
   try {
     const { data } = await axios(`https://rickandmortyapi.com/api/character?name=${personajeBuscado}`, {
     })
+   
 
     pintarDatos(data.results)
 
@@ -72,7 +58,8 @@ $buttonSearch.addEventListener("click", async () => {
 ///-----evento click para buscar episodio de personaje---//
 let tipoBusqueda = "character"
 
-
+const $TitleStatus = $("#TitleStatus")
+const $TitleGender = $("#TitleGender")
 
 const $selectFiltro = $("#selectFiltro");
 console.log(tipoBusqueda)
@@ -84,8 +71,19 @@ $selectFiltro.addEventListener("change", async (e) => {
 
   if (selectedValue === "character") {
     tipoBusqueda = "character";
+    $selectGender.style.display = "block"
+    $TitleGender.style.display = "block"
+    $TitleStatus.style.display = "block"
+    $searchStatus.style.display = "block"
   } else {
     tipoBusqueda = "episode";
+
+
+
+    $selectGender.style.display = "none"
+    $TitleGender.style.display = "none"
+    $TitleStatus.style.display = "none"
+    $searchStatus.style.display = "none"
   }
 
   try {
@@ -128,11 +126,15 @@ pintarDatos(personajes)*/
 async function obtenerDatos(tipoBusqueda) {
 
   try {
-    const { data } = await axios(`https://rickandmortyapi.com/api/${tipoBusqueda}`)
-    datos = data.results
+    const { data } = await axios(`https://rickandmortyapi.com/api/character`)
+    
+   
+  
+
+
     console.log(datos)
   } catch (error) {
-
+    console.log(error)
   }
 
 }
@@ -146,7 +148,7 @@ function pintarDatos(array) {
   for (const personaje of array) {
     $resultSection.innerHTML += `
    
-    <div class=" columnw-full flex-wrap  comic sm: bg-black min-w-80 md:min-w-32 md:min-h-15    justify-center items-center m-8  ">
+    <div class=" column w-full flex-wrap  comic sm: bg-black min-w-80 md:min-w-32 md:min-h-15    justify-center items-center m-8  ">
         <div class="comic-img-container m-8 ">
               <img class="img" id ="${personaje.id}" src="${personaje.image}" alt="">
         </div>
@@ -188,20 +190,32 @@ function pintarDatos(array) {
 
           Authorization: ""
         })
+        const arrayPromises = data.episode.map(elem => axios(elem))
+        console.log(elem)
+        const response = await Promise.all(arrayPromises)
+        // Extraer los nombres de los episodios de la respuesta
+      const arrayDetailEpisode = response.map(ep => ep.data.name);
+      
+      console.log(arrayDetailEpisode);
+
+        pintarDatos(data.episode)
+
         $containCharacter.innerHTML = ""
         $containCharacter.innerHTML = `
         <section id="containCharacter" class="containCharacter bg-white h-full w-full flex justify-center items-center text-2xl flex-wrap  " >
         <img src="${data.image}" alt="" class="character-portrait">
-        <div class="character-details">
-              <h2 class="name h-800">${data.name}</h2>
+        <div class="character-details bg-white h-full w-full  justify-center items-center text-2xl flex-wrap">
+              <h2 class="name h-800 ">${data.name} </h2>
               <h2 class="status">${data.status}</h2>
               <h2 class="species">${data.species}</h2>
               <h2 class="gender">${data.gender}</h2>
               <div>
-              <button id="buttonReturn" type="button" id="firstPage" class="first-page " aria-label="Pagina Previa">
+              <button class="flex justify-end" id="buttonReturn" type="button" id="firstPage" class="first-page " aria-label="Pagina Previa">
               <i class="fa-solid fa-angles-left text-2xl md:text-4xl m-5  text-black"></i>
         </button>
               </div>
+              <div>Episodios</div>
+              <div class="flex flex-col   justify-center items-center m-8">${arrayDetailEpisode}</div>
 
         </div>
   </section>`
@@ -325,7 +339,7 @@ $nextPage.addEventListener("click", async () => {
     return $resultSection.innerHTML = `<img class="" src="./style/img/fin.jpg">`;
   }
   try {
-    const { data } = await axios(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
+    const { data } = await axios(`https://rickandmortyapi.com/api/character?page=${currentPage}&status=${inputPersonajeStatus}`)
 
 
 
@@ -359,7 +373,7 @@ $searchStatus.addEventListener("change", async () => {
     console.log(7)
     $resultSection.style.display = "block";
     $containCharacter.style.display = "none";
-    $pagination.style.display = "none"
+    $pagination.style.display = "block"
 
 
     const personajes = data.results;
@@ -394,7 +408,7 @@ $selectGender.addEventListener("change", async () => {
     console.log(7)
     $resultSection.style.display = "block";
     $containCharacter.style.display = "none";
-    $pagination.style.display = "none"
+    $pagination.style.display = "block"
 
 
     const personajes = data.results;
