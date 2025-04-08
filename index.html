@@ -5,7 +5,7 @@
       <meta charset="UTF-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      
+
       <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
       <title>Document</title>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/css-loader/3.3.3/css-loader.css"></script>
@@ -27,7 +27,7 @@
 
 <body class="bg-black">
       <header>
-            
+
       </header>
       <div class="w-full overflow-hidden">
             <div class=" m-8  h-96 bg-[url('./style/img/8.jpg')] bg-cover bg-no-repeat bg-center">
@@ -44,52 +44,55 @@
                               <i id="button-search" class=" fas fa-search text-white"></i>
                         </div>
 
-                        <div class="search-inner-container relative flex flex-col">
+                        <div class="search-inner-container  flex flex-col justify-center items-center">
                               <div class="sort-container">
-                                    
-                                    <label id="TitleStatus" class="text-white" for="search-status">Estado</label>
-                                    <select name="" id="search-status">
-                                          <option value="alive">Vivo</option>
-                                          <option value="dead">No Vive</option>
-                                          <option value="unknown">Desconocido</option>
-                                          
-                                    </select>
-                                    <label id="TitleGender" class="text-white" for="selectGender">Genero</label>
-                                    <select name="" id="selectGender">
-                                          
-                                          <option value="Male">Hombre</option>
-                                          <option value="Female">Mujer</option>
-                                          <option value="Genderless">Sin Genero</option>
-                                          <option value="Unknown">Desconocido</option>
-                                          
-                                    </select>
+                                    <div>
+                                          <label id="TitleStatus" class="text-white" for="search-status">Estado</label>
+                                          <select name="" id="search-status">
+                                                <option value="alive">Vivo</option>
+                                                <option value="dead">No Vive</option>
+                                                <option value="unknown">Desconocido</option>
+
+                                          </select>
+                                    </div>
+                                    <div>
+                                          <label id="TitleGender" class="text-white" for="selectGender">Genero</label>
+                                          <select name="" id="selectGender">
+
+                                                <option value="Male">Hombre</option>
+                                                <option value="Female">Mujer</option>
+                                                <option value="Genderless">Sin Genero</option>
+                                                <option value="Unknown">Desconocido</option>
+
+                                          </select>
+                                    </div>
+
+
                               </div>
-                              
 
                         </div>
+                  </div>
+                  <div>
+
+                        <section id="containCharacter" class=" section  bg-red-100 h-full w-full ">
+                              <img src="" alt="" class="character-portrait">
+                              <div class="character-details">
+                                    <h2 class="character-name"></h2>
+                                    <p class="character-description"></p>
+                              </div>
+                        </section>
+                        <section id="resultSection"
+                              class="  flex justify-center items-center flex-wrap sm: bg-black min-w-80 md:min-w-32 md:min-h-15  ">
+                              <h2 class="results-title">Resultados</h2>
+                              <p class="result-count">
+                                    <span class="results-number"></span>
+                                    Resultados
+                              </p>
 
                   </div>
-            </div>
-            <div>
-                 
-                  <section id="containCharacter"class=" section  bg-red-100 h-full w-full ">
-                        <img src="" alt="" class="character-portrait">
-                        <div class="character-details">
-                              <h2 class="character-name"></h2>
-                              <p class="character-description"></p>
-                        </div>
-                  </section>
-                  <section id="resultSection" class="  flex justify-center items-center flex-wrap sm: bg-black min-w-80 md:min-w-32 md:min-h-15  ">
-                        <h2 class="results-title">Resultados</h2>
-                        <p class="result-count">
-                              <span class="results-number"></span>
-                              Resultados
-                        </p>
-                       
-                        </div>
 
                   </section>
-                  <section id="charactersSection">
+                  <section class=" h-full w-full justify-center items-center" id="charactersSection">
                         <div></div>
                   </section>
                   <div id="pagination" class="pagination flex justify-center bg-black text-white min-h-24">
@@ -97,7 +100,7 @@
                               <i class="fa-solid fa-angles-left text-2xl md:text-4xl m-5  text-white"></i>
                         </button>
                         <button type="button" id="previousPage" class="previous-Page " aria-label="Página Anterior">
-                              <i  id="imgPreviousPage"class="fas fa-angle-left text-2xl md:text-4xl m-5 text-white"></i>
+                              <i id="imgPreviousPage" class="fas fa-angle-left text-2xl md:text-4xl m-5 text-white"></i>
                         </button>
                         <button type="button" id="nextPage" class="next-page " aria-label="Siguiente Página">
                               <i class="fas fa-angle-right text-2xl md:text-4xl m-5 text-white"></i>
@@ -115,7 +118,7 @@
             </div>
       </main>
       <footer class="flex justify-center items-center bg-black min-h-24 text-white">
-            <div class="column font-family-Lilita One md:text-2xl">Hecho  por Nadia </div>
+            <div class="column font-family-Lilita One md:text-2xl">Hecho por Nadia </div>
       </footer>
       <script src="./main.js"></script>
 
