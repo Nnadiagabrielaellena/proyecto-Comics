@@ -52,7 +52,8 @@ $buttonSearch.addEventListener("click", async () => {
 
 
   } catch (error) {
-    $resultSection.innerHTML = `<div><h1 class="text-white tex-2xl">no hay resultados</h1><img class="" src="./style/img/no.jpg"></div>`
+    $resultSection.innerHTML = `<div><h1 class="text-white tex-2xl">no hay resultados</h1><img class="flex justify-center items-center " src="./style/img/no.jpg"></div>`
+    $pagination.style.display="none"
     console.log(error)
   }
 })
