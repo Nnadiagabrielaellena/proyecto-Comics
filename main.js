@@ -57,58 +57,7 @@ $buttonSearch.addEventListener("click", async () => {
   }
 })
 
-///-----evento click para buscar episodio de personaje---//
-/*let tipoBusqueda = "character"
 
-const $TitleStatus = $("#TitleStatus")
-const $TitleGender = $("#TitleGender")
-
-const $selectFiltro = $("#selectFiltro");
-console.log(tipoBusqueda)
-$selectFiltro.addEventListener("change", async (e) => {
-
-  $resultSection.innerHTML = "";
-  $resultSection.innerHTML = `<div class="h-full w-full flex justify-center items-center loader ">Loading...</div>`
-  const selectedValue = e.target.value;
-
-  if (selectedValue === "character") {
-    tipoBusqueda = "character";
-    $selectGender.style.display = "block"
-    $TitleGender.style.display = "block"
-    $TitleStatus.style.display = "block"
-    $searchStatus.style.display = "block"
-  } else {
-    tipoBusqueda = "episode";
-
-
-
-    $selectGender.style.display = "none"
-    $TitleGender.style.display = "none"
-    $TitleStatus.style.display = "none"
-    $searchStatus.style.display = "none"
-  }
-
-  try {
-    const { data } = await axios(`https://rickandmortyapi.com/api/${tipoBusqueda}`)
-
-
-    const personajes = data.results;
-    console.log(personajes)
-    $resultSection.style.display = "block";
-    $pagination.style.display = "block"
-    $containCharacter.style.display = "none";
-
-    pintarDatos(personajes)
-
-  } catch (error) {
-    console.log(error)
-  }
-
-
-
-})
-
-*/
 //----obtener datos----//
 async function obtenerDatos(tipoBusqueda) {
 
@@ -132,7 +81,7 @@ function pintarDatos(array) {
    
     <div class="   flex-wrap  comic sm: bg-black min-w-80 md:min-w-32 md:min-h-15    justify-center items-center m-8  ">
         <div class="comic-img-container m-8 ">
-              <img class="img" id ="${personaje.id}" src="${personaje.image}" alt="">
+              <img class="img img transition-transform transform hover:scale-110 hover:brightness-110 cursor-pointer" id ="${personaje.id}" src="${personaje.image}" alt="">
         </div>
         <h1 class="comic-title min-h-24 bg-black text-white m-2">nombre :${personaje.name}</h1>
         <h3 class="comic-title min-h-24 bg-black text-white ">Genero:  ${personaje.gender === "Female"
@@ -184,13 +133,11 @@ function pintarDatos(array) {
 
         $containCharacter.innerHTML = ""
         $containCharacter.innerHTML = `
-        <section id="containCharacter" class="flex flex-col containCharacter bg-white h-full w-full flex justify-center items-center text-2xl flex-wrap  " >
+        <section id="containCharacter" class="flex justify-center items-center flex-wrap sm: bg-black min-w-80 md:min-w-32 md:min-h-15  " >
         <img src="${data.image}" alt="" class="character-portrait">
         <div class="flex flex-col character-details bg-white h-full w-full  justify-center items-center text-2xl flex-wrap">
               <h2 class="name h-800  h-full w-full flex justify-center items-center ">${data.name} </h2>
-              <h2 class="status">${data.status}</h2>
-              <h2 class="species">${data.species}</h2>
-              <h2 class="gender">${data.gender}</h2>
+              
               <div>
               <button class="flex justify-end" id="buttonReturn" type="button"  class="first-page " aria-label="Pagina Previa">
               <i class="fa-solid fa-angles-left text-2xl md:text-4xl m-5  text-black"></i>
@@ -234,7 +181,7 @@ function pintarDatos(array) {
 
               const charactersList = characterNames.map(name => `<p>${name}</p>`).join('');
 
-              $charactersSection.innerHTML = `<div class="flex flex-col h-full w-full justify-center items-center">
+              $charactersSection.innerHTML = `<div class="flex justify-center items-center flex-wrap sm: bg-black min-w-80 md:min-w-32 md:min-h-15 ">
               <h2 class="text-3xl text-white"></h2>
                 <h3 class="text-white text-2xl m-8">Personajes en este episodio: ${episodeResponse.data.name}</h3>
                 <div class="flex flex-col text-white text-2xl  h-full w-full justify-center items-center">${charactersList}</div>
@@ -333,11 +280,12 @@ function pintarDatos(array) {
 $firstPage.addEventListener("click", async () => {
   $resultSection.innerHTML = ""
   $resultSection.innerHTML = `<div class="loader "></div>`
+  const inputGender = $selectGender.value
   currentPage = 1
   $numeroPage.innerText = currentPage
 
   try {
-    const { data } = await axios(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
+    const { data } = await axios(`https://rickandmortyapi.com/api/character?page=${currentPage}&status=${inputPersonajeStatus}&gender=${inputGender}`)
 
 
 
@@ -440,7 +388,7 @@ $searchStatus.addEventListener("change", async () => {
   const inputPersonajeStatus = $searchStatus.value
   console.log(inputPersonajeStatus)
   try {
-    const { data } = await axios(`https://rickandmortyapi.com/api/character/?&status=${inputPersonajeStatus}&gender=${inputGender}`)
+    const { data } = await axios(`https://rickandmortyapi.com/api/character/?page=${currentPage}&status=${inputPersonajeStatus}&gender=${inputGender}`)
 
     console.log(data)
     console.log(7)
@@ -482,7 +430,8 @@ $selectGender.addEventListener("change", async () => {
     
     $resultSection.style.display = "block";
     $containCharacter.style.display = "none";
-    $pagination.style.display = "block"
+    $pagination.style.display = "block";
+    $charactersSection.style.display="none"
 
 
     const personajes = data.results;
