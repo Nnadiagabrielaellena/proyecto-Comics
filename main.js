@@ -56,7 +56,7 @@ $buttonSearch.addEventListener("click", async () => {
 })
 
 ///-----evento click para buscar episodio de personaje---//
-let tipoBusqueda = "character"
+/*let tipoBusqueda = "character"
 
 const $TitleStatus = $("#TitleStatus")
 const $TitleGender = $("#TitleGender")
@@ -106,7 +106,7 @@ $selectFiltro.addEventListener("change", async (e) => {
 
 })
 
-
+*/
 //----obtener datos----//
 async function obtenerDatos(tipoBusqueda) {
 
@@ -190,7 +190,7 @@ function pintarDatos(array) {
               <h2 class="species">${data.species}</h2>
               <h2 class="gender">${data.gender}</h2>
               <div>
-              <button class="flex justify-end" id="buttonReturn" type="button" id="firstPage" class="first-page " aria-label="Pagina Previa">
+              <button class="flex justify-end" id="buttonReturn" type="button"  class="first-page " aria-label="Pagina Previa">
               <i class="fa-solid fa-angles-left text-2xl md:text-4xl m-5  text-black"></i>
         </button>
               </div>
@@ -219,6 +219,7 @@ function pintarDatos(array) {
       
             try {
               const episodeResponse = await axios(episodeUrl);
+              console.log(episodeResponse)
               const characterUrls = episodeResponse.data.characters;
       
             
@@ -232,26 +233,61 @@ function pintarDatos(array) {
               const charactersList = characterNames.map(name => `<p>${name}</p>`).join('');
               
               $charactersSection.innerHTML = `
-                <h3 class="text-white text-2xl m-8">Personajes en este episodio:</h3>
+              <h2 class="text-3xl text-black">Quiclea sobre el Episodio para ver sus personajes </h2>
+                <h3 class="text-white text-2xl m-8">Personajes en este episodio: ${ episodeResponse.data.name}</h3>
                 <div class="text-white">${charactersList}</div>
+                <button id="buttonReturn2"  class="flex justify-end" type="button"  class="first-page " aria-label="Pagina Previa">
+              <i class="fa-solid fa-angles-left text-2xl md:text-4xl m-5  text-white"></i>
+        </button>
               `;
       
               $resultSection.style.display = "none";
               $containCharacter.style.display = "none";
               $charactersSection.style.display="block"
-
-
               $pagination.style.display = "none"
+
+
+              
             } catch (error) {
               console.error('Error al obtener los personajes:', error);
             }
           });
         });
-      
+      //---boton volver2---//
+     const  $buttonReturn2= $("#buttonReturn2")
      
+     $buttonReturn2.addEventListener("click", async () => {
+      console.log($buttonReturn)
+      $resultSection.innerHTML = ""
+      $resultSection.innerHTML = `<div class="loader "></div>`
+      currentPage = 1
+      $numeroPage.innerText = currentPage
+
+      try {
+        const { data } = await axios(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
+
+
+
+        const personajes = data.results;
+        console.log(personajes)
+        $resultSection.style.display = "block";
+        $pagination.style.display = "block"
+        $containCharacter.style.display = "none";
+
+        pintarDatos(personajes)
+
+
+      } catch (error) {
+        console.log(error)
+      }
+    })
+        
+        
+        
+        
         //----boton volver----///
 
-        $buttonReturn.addEventListener("click", async () => {
+      $buttonReturn.addEventListener("click", async () => {
           console.log($buttonReturn)
           $resultSection.innerHTML = ""
           $resultSection.innerHTML = `<div class="loader "></div>`
@@ -334,6 +370,8 @@ $lastPage.addEventListener("click", async () => {
 $previousPage.addEventListener("click", async () => {
   $resultSection.innerHTML = ""
   $resultSection.innerHTML = `<div class="loader "></div>`
+
+  const inputGender = $selectGender.value
   currentPage -= 1
   $numeroPage.innerText = currentPage
   if (currentPage < 1) {
@@ -341,7 +379,7 @@ $previousPage.addEventListener("click", async () => {
     return $resultSection.innerHTML = `<img class="" src="./style/img/fin.jpg">`;
   }
   try {
-    const { data } = await axios(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
+    const { data } = await axios(`https://rickandmortyapi.com/api/character?page=${currentPage}&status=${inputPersonajeStatus}&gender=${inputGender}`)
 
 
 
@@ -357,6 +395,8 @@ $previousPage.addEventListener("click", async () => {
 $nextPage.addEventListener("click", async () => {
   $resultSection.innerHTML = ""
   $resultSection.innerHTML = `<div class="loader "></div>`
+
+  const inputGender = $selectGender.value
   currentPage += 1
   $numeroPage.innerText = currentPage
   if (currentPage > 42) {
@@ -364,7 +404,7 @@ $nextPage.addEventListener("click", async () => {
     return $resultSection.innerHTML = `<img class="" src="./style/img/fin.jpg">`;
   }
   try {
-    const { data } = await axios(`https://rickandmortyapi.com/api/character?page=${currentPage}&status=${inputPersonajeStatus}`)
+    const { data } = await axios(`https://rickandmortyapi.com/api/character?page=${currentPage}&status=${inputPersonajeStatus}&gender=${inputGender}`)
 
 
 
@@ -388,11 +428,11 @@ $searchStatus.addEventListener("change", async () => {
 
   $resultSection.innerHTML = "";
   $resultSection.innerHTML = `<div class="loader "></div>`
-
+  const inputGender = $selectGender.value
   const inputPersonajeStatus = $searchStatus.value
   console.log(inputPersonajeStatus)
   try {
-    const { data } = await axios(`https://rickandmortyapi.com/api/character/?&status=${inputPersonajeStatus}`)
+    const { data } = await axios(`https://rickandmortyapi.com/api/character/?&status=${inputPersonajeStatus}&gender=${inputGender}`)
 
     console.log(data)
     console.log(7)
