@@ -49,11 +49,11 @@ $buttonSearch.addEventListener("click", async () => {
     $resultSection.style.display = "block";
     $containCharacter.style.display = "none";
     $pagination.style.display = "none"
-
+    $charactersSection.style.display = "none"
 
   } catch (error) {
-    $resultSection.innerHTML = `<div><h1 class="text-white tex-2xl">no hay resultados</h1><img class="flex justify-center items-center " src="./style/img/no.jpg"></div>`
-    $pagination.style.display="none"
+    $resultSection.innerHTML = `<div><h1 class="text-white tex-2xl">no hay resultados</h1><img class=" flex flex-col justify-center items-center " src="./style/img/no.jpg"></div>`
+    $pagination.style.display = "none"
     console.log(error)
   }
 })
@@ -80,7 +80,7 @@ function pintarDatos(array) {
   for (const personaje of array) {
     $resultSection.innerHTML += `
    
-    <div class="   flex-wrap  comic sm: bg-black min-w-80 md:min-w-32 md:min-h-15    justify-center items-center m-8  ">
+    <div class=" flex flex-col   comic sm: bg-black min-w-80 md:min-w-32 md:min-h-15    justify-center items-center m-8  ">
         <div class="comic-img-container m-8 ">
               <img class="img img transition-transform transform hover:scale-110 hover:brightness-110 cursor-pointer" id ="${personaje.id}" src="${personaje.image}" alt="">
         </div>
@@ -134,7 +134,7 @@ function pintarDatos(array) {
 
         $containCharacter.innerHTML = ""
         $containCharacter.innerHTML = `
-        <section id="containCharacter" class="flex justify-center items-center flex-wrap sm: bg-black min-w-80 md:min-w-32 md:min-h-15  " >
+        <section id="containCharacter" class=" bg-white flex justify-center items-center flex-wrap sm: bg-black min-w-80 md:min-w-32 md:min-h-15  " >
         <img src="${data.image}" alt="" class="character-portrait">
         <div class="flex flex-col character-details bg-white h-full w-full  justify-center items-center text-2xl flex-wrap">
               <h2 class="name h-800  h-full w-full flex justify-center items-center ">${data.name} </h2>
@@ -184,8 +184,8 @@ function pintarDatos(array) {
 
               $charactersSection.innerHTML = `<div class="flex justify-center items-center flex-wrap sm: bg-black min-w-80 md:min-w-32 md:min-h-15 ">
               <h2 class="text-3xl text-white"></h2>
-                <h3 class="text-white text-2xl m-8">Personajes en este episodio: ${episodeResponse.data.name}</h3>
-                <div class="flex flex-col text-white text-2xl  h-full w-full justify-center items-center">${charactersList}</div>
+                <h3 class="text-white text-3xl m-8">Personajes en este episodio: ${episodeResponse.data.name}</h3>
+                <div class="flex flex-col text-white text-2xl  h-full w-full justify-center items-center bold">${charactersList}</div>
                 <button id="buttonReturn2"  class="flex justify-end" type="button"  class="first-page " aria-label="Pagina Previa">
               <i class="fa-solid fa-angles-left text-2xl md:text-4xl m-5  text-white"></i>
         </button>
@@ -204,22 +204,22 @@ function pintarDatos(array) {
                 $resultSection.innerHTML = `<div class="loader "></div>`
                 currentPage = 1
                 $numeroPage.innerText = currentPage
-      
+
                 try {
                   const { data } = await axios(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
-      
-      
-      
+
+
+
                   const personajes = data.results;
                   console.log(personajes)
                   $resultSection.style.display = "block";
                   $pagination.style.display = "block"
                   $containCharacter.style.display = "none";
-                  $charactersSection.style.display="none"
-      
+                  $charactersSection.style.display = "none"
+
                   pintarDatos(personajes)
-      
-      
+
+
                 } catch (error) {
                   console.log(error)
                 }
@@ -231,8 +231,8 @@ function pintarDatos(array) {
             }
           });
         });
-       
-       
+
+
 
 
 
@@ -381,7 +381,7 @@ const $searchStatus = $("#search-status")
 const $charactersSection = $("#charactersSection")
 $searchStatus.addEventListener("change", async () => {
   console.log($searchStatus)
- 
+
 
   $resultSection.innerHTML = "";
   $resultSection.innerHTML = `<div class="loader "></div>`
@@ -396,7 +396,7 @@ $searchStatus.addEventListener("change", async () => {
     $resultSection.style.display = "block";
     $containCharacter.style.display = "none";
     $pagination.style.display = "block"
-    $charactersSection.style.display ="none"
+    $charactersSection.style.display = "none"
 
 
     const personajes = data.results;
@@ -428,11 +428,11 @@ $selectGender.addEventListener("change", async () => {
 
 
     console.log(data)
-    
+
     $resultSection.style.display = "block";
     $containCharacter.style.display = "none";
     $pagination.style.display = "block";
-    $charactersSection.style.display="none"
+    $charactersSection.style.display = "none"
 
 
     const personajes = data.results;
