@@ -147,7 +147,7 @@ function pintarDatos(array) {
               cursor-pointer"></i>
         </button>
               </div>
-              <div class="flex flex-col   justify-center items-center m-8 text-3xl text-2xl font-['Lilita_One']"> elija Episodio para ver sus personajes:</div>
+              <div class="flex flex-col   justify-center items-center m-8 text-3xl text-2xl font-['Lilita_One']"> Elija episodio para ver sus personajes:</div>
               <div class="flex flex-col   justify-center items-center m-8 text-2xl font-['Lilita_One'] ">
               ${arrayDetailEpisode.map((episode, index) => `
               <button class="episode-btn" data-index="${index}">${episode}</button>
