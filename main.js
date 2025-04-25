@@ -305,7 +305,8 @@ function pintarDatos(array) {
 $firstPage.addEventListener("click", async () => {
   $resultSection.innerHTML = ""
   $resultSection.innerHTML = `<div class="loader "></div>`
-  const inputGender = $selectGender.value
+  const inputGender = $selectGender.value;
+  const inputPersonajeStatus = $searchStatus.value;
   currentPage = 1
   $numeroPage.innerText = currentPage
 
@@ -322,7 +323,8 @@ $firstPage.addEventListener("click", async () => {
 $lastPage.addEventListener("click", async () => {
   $resultSection.innerHTML = ""
   $resultSection.innerHTML = `<div class="loader "></div>`
-  const inputGender = $selectGender.value
+  const inputGender = $selectGender.value;
+  const inputPersonajeStatus = $searchStatus.value;
   currentPage = pageMax
 
   $numeroPage.innerText = currentPage
@@ -342,7 +344,8 @@ $previousPage.addEventListener("click", async () => {
   $resultSection.innerHTML = ""
   $resultSection.innerHTML = `<div class="loader "></div>`
 
-  const inputGender = $selectGender.value
+  const inputGender = $selectGender.value;
+  const inputPersonajeStatus = $searchStatus.value;
   currentPage -= 1
   $numeroPage.innerText = currentPage
   if (currentPage < 1) {
@@ -364,7 +367,8 @@ $nextPage.addEventListener("click", async () => {
   $resultSection.innerHTML = ""
   $resultSection.innerHTML = `<div class="loader "></div>`
 
-  const inputGender = $selectGender.value
+  const inputGender = $selectGender.value;
+  const inputPersonajeStatus = $searchStatus.value;
   currentPage += 1
   $numeroPage.innerText = currentPage
 
