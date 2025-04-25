@@ -33,41 +33,81 @@ let currentPage = 1;
 let pageMax = 0;
 let personajes = [];
 let datos = [];
+let tipoBusqueda = "character"
 
 
-
-$buttonSearch.addEventListener("click", async () => {
-  $resultSection.innerHTML = "";
-  $resultSection.innerHTML = `<div class="loader "></div>`
+const $inputType = $("#inputType")
+/////
+$inputType.addEventListener("input", async (e) => {
+  tipoBusqueda = e.target.value === "episode" ? "episode" : "character";
+  $resultSection.innerHTML = `<div class="loader"></div>`;
 
   const personajeBuscado = $inputtextSearch.value;
 
   try {
-    const { data } = await axios(`https://rickandmortyapi.com/api/character?name=${personajeBuscado}`, {
+    if (tipoBusqueda === "character") {
+      // Búsqueda directa por personaje
+      const { data } = await axios(`https://rickandmortyapi.com/api/character/?name=${personajeBuscado}`);
+      console.log(data);
+      pageMax = data.info.pages;
+      pintarPersonajes(data.results);
 
-    })
-    console.log(data)
-    pageMax = data.info.pages
-    console.log(pageMax)
-    pintarDatos(data.results)
+    } else if (tipoBusqueda === "episode") {
+      // Buscar personaje y luego sus episodios
+      const { data } = await axios(`https://rickandmortyapi.com/api/character/?name=${personajeBuscado}`);
+      const personaje = data.results[0]; // Tomamos el primero que coincida
+      const arrayPromises = personaje.episode.map(url => axios(url));
+      const response = await Promise.all(arrayPromises);
+      const episodios = response.map(res => res.data);
+      pintarEpisodios(episodios);
+    }
 
     $resultSection.style.display = "flex";
     $containCharacter.style.display = "none";
-    $pagination.style.display = "none"
-    $charactersSection.style.display = "none"
+    $pagination.style.display = "none";
+    $charactersSection.style.display = "none";
 
   } catch (error) {
-    $resultSection.innerHTML = `<div><h1 class="text-white tex-2xl flex flex-col justify-center items-center font-['Alfa_Slab_One'] ">no hay resultados</h1><img class=" flex flex-col justify-center items-center " src="./style/img/no.jpg"></div>`
-    $pagination.style.display = "none"
-    console.log(error)
+    $resultSection.innerHTML = `
+      <div>
+        <h1 class="text-white tex-2xl flex flex-col justify-center items-center font-['Alfa_Slab_One']">no hay resultados</h1>
+        <img class="flex flex-col justify-center items-center" src="./style/img/no.jpg">
+      </div>`;
+    $pagination.style.display = "none";
+    console.log(error);
   }
-})
+});
+function pintarEpisodios(episodios) {
+  if (!episodios || episodios.length === 0) {
+    $resultSection.innerHTML = `<p class="text-white text-xl">No se encontraron episodios para este personaje.</p>`;
+    return;
+  }
+
+  $resultSection.innerHTML = episodios.map(episodio => `
+    <div class="card bg-gray-800 text-white p-4 m-2 rounded shadow card bg-gray-800 text-white p-4 m-2 rounded shadow ">
+      <h2 class="text-lg font-bold text-white text-3xl font-['Lilita_One'] m-2">${episodio.name}</h2>
+      <p><strong>Temporada / Episodio:</strong> ${episodio.episode}</p>
+      <p><strong>Fecha de emisión:</strong> ${episodio.air_date}</p>
+    </div>
+  `).join('');
+}
+function pintarPersonajes(personajes) {
+  $resultSection.innerHTML = personajes.map(personaje => `
+    <div class="card">
+      <img class="rounded-xl w-72 h-auto transition-all duration-300 ease-in-out shadow-lg hover:scale-105 hover:shadow-cyan-400/50 cursor-pointer" src="${personaje.image}" alt="${personaje.name}">
+      <h2 class="text-white text-white text-3xl font-['Lilita_One'] m-2">${personaje.name}</h2>
+      <p>${personaje.status} - ${personaje.species}</p>
+    </div>
+  `).join('');
+}
+
+
 
 
 //----obtener datos----//
 async function obtenerDatos(tipoBusqueda) {
   try {
-    const { data } = await axios(`https://rickandmortyapi.com/api/character`)
+    const { data } = await axios(`https://rickandmortyapi.com/api/${tipoBusqueda}`)
     console.log(data)
   } catch (error) {
     console.log(error)
@@ -76,42 +116,52 @@ async function obtenerDatos(tipoBusqueda) {
 
 //-----------pintar datos-------//
 const $imgPreviousPage = $("#imgPreviousPage")
-
 function pintarDatos(array) {
   $resultSection.innerHTML = '';
 
-  for (const personaje of array) {
-    $resultSection.innerHTML += `
-   
-    <div class="bg-black m-4 p-4 rounded-lg shadow-md transition hover:shadow-cyan-500/50 flex flex-col   comic sm: bg-black min-w-80 md:min-w-32 md:min-h-15    justify-center items-center m-8  ">
-        <div class="comic-img-container m-8 ">
-              <img class="img rounded-xl w-72 h-auto transition-all duration-300 ease-in-out 
-              shadow-lg hover:scale-105 hover:shadow-cyan-400/50 
-              cursor-pointer" id ="${personaje.id}" src="${personaje.image}" alt="">
-        </div>
-        <h1 class="comic-title min-h-24 bg-black text-white text-3xl font-['Lilita_One']  m-2">Nombre :${personaje.name}</h1>
-        <h3 class="comic-title min-h-24 bg-black text-white text-2xl font-['Lilita_One'] ">Genero:  ${personaje.gender === "Female"
-        ? "Mujer"
-        : personaje.gender === "Male"
-          ? "Hombre"
-          : personaje.gender === "Genderless"
-            ? "Sin género"
-            : personaje.gender === "Unknown"
+  for (const item of array) {
+    if (tipoBusqueda === "character") {
+      // Pintar personajes
+      $resultSection.innerHTML += `
+        <div class="bg-black m-4 p-4 rounded-lg shadow-md transition hover:shadow-cyan-500/50 flex flex-col comic sm:bg-black min-w-80 md:min-w-32 md:min-h-15 justify-center items-center m-8">
+          <div class="comic-img-container m-8">
+            <img class="img rounded-xl w-72 h-auto transition-all duration-300 ease-in-out shadow-lg hover:scale-105 hover:shadow-cyan-400/50 cursor-pointer" id="${item.id}" src="${item.image}" alt="">
+          </div>
+          <h1 class="comic-title min-h-24 bg-black text-white text-3xl font-['Lilita_One'] m-2">Nombre: ${item.name}</h1>
+          <h3 class="comic-title min-h-24 bg-black text-white text-2xl font-['Lilita_One']">Género: ${item.gender === "Female"
+              ? "Mujer"
+              : item.gender === "Male"
+              ? "Hombre"
+              : item.gender === "Genderless"
+              ? "Sin género"
+              : item.gender === "Unknown"
               ? "Género desconocido"
               : "Género no especificado"
-      }</h3>
-        <h3 class="comic-title min-h-24 bg-black text-white text-2xl font-['Lilita_One']">Estado: ${personaje.status === "Alive"
-        ? "Está vivo"
-        : personaje.status === "Dead"
-          ? "No está vivo"
-          : personaje.status === "Unknown"
-            ? "Estado desconocido"
-            : "Estado no especificado"
-      }</h3>
-        <h1 id="numeroPage"></h1>
-  </div>
-  `
+            }</h3>
+          <h3 class="comic-title min-h-24 bg-black text-white text-2xl font-['Lilita_One']">Estado: ${item.status === "Alive"
+              ? "Está vivo"
+              : item.status === "Dead"
+              ? "No está vivo"
+              : item.status === "Unknown"
+              ? "Estado desconocido"
+              : "Estado no especificado"
+            }</h3>
+        </div>
+      `;
+    } else if (tipoBusqueda === "episode") {
+     
+      // Pintar episodios
+      $resultSection.innerHTML += `
+        <div class="bg-black m-4 p-4 rounded-lg shadow-md hover:shadow-green-500/50 flex flex-col min-w-80 md:min-w-32 justify-center items-center m-8">
+          <h1 class="text-white text-3xl font-['Lilita_One'] m-2">Episodio: ${item.episode}${arrayDetailEpisode}</h1>
+          <h2 class="text-white text-2xl font-['Lilita_One'] m-2">Nombre: ${item.name}</h2>
+          <h3 class="text-white text-xl font-['Lilita_One'] m-2">Fecha de emisión: ${item.air_date}</h3>
+        </div>
+      `;
+    }
   }
+
+
   const personajesDibujados = document.querySelectorAll('.img');
 
   personajesDibujados.forEach(elem => {
@@ -380,7 +430,7 @@ try {
 
 window.onload = async () => {
   try {
-    const { data } = await axios("https://rickandmortyapi.com/api/character/")
+    const { data } = await axios(`https://rickandmortyapi.com/api/${tipoBusqueda}/`)
     const personajes = data.results
     pageMax = data.info.pages
     

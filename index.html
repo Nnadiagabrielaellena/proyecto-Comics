@@ -52,15 +52,26 @@
       <main class="column">
             <div class="scearch ">
                   <h2 id="search-title  " class="text-2xl font-bold">busqueda</h2>
+                  
                   <div class="search-container bg-black min-h-48">
                         <div class="search-input-container flex w-64 md: w-80">
                               <input type="text" name="" id="input-text-search" placeholder="Ingresa tu Busqueda"
                                     class="search-input px-2 py-2 text-lg flex-grow outline-none text-gray-800 ">
-                              <i id="button-search" class=" fas fa-search text-white text-2xl "></i>
+                              <i id="button-search" class=" fas fa-search text-black text-2xl "></i>
                         </div>
+                        <div>
+                              <label id="TitleStatus" class="text-white text-1xl font-['Alfa_Slab_One'] md:text-2xl m-8"
+                                    for="filterType">tipo</label>
+                              <select name="" id="inputType">
+                                    <option value="character">Personaje</option>
+                                    <option value="episode">Episodio</option>
+                                    
 
+                              </select>
+                        </div>
                         <div class="search-inner-container  flex flex-col justify-center items-center">
                               <div class="sort-container">
+                                   
                                     <div>
                                           <label id="TitleStatus" class="text-white text-1xl font-['Alfa_Slab_One'] md:text-2xl m-8"
                                                 for="search-status">Estado</label>
