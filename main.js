@@ -11,7 +11,7 @@ const $searchSort = $("#search-sort ");
 const $resultSection = $("#resultSection");
 const $inputtextSearch = $("#input-text-search");
 const $buttonSearch = $("#button-search");
-
+const $sortContainer =$("#sort-container")
 // Botones de paginación
 const $firstPage = $("#firstPage ");
 const $previousPage = $("#previousPage");
@@ -66,6 +66,8 @@ $inputType.addEventListener("input", async (e) => {
     $containCharacter.style.display = "none";
     $pagination.style.display = "none";
     $charactersSection.style.display = "none";
+    $sortContainer.style.display ="none"
+
 
   } catch (error) {
     $resultSection.innerHTML = `
