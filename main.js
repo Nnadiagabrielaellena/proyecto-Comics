@@ -36,6 +36,7 @@ let datos = [];
 let tipoBusqueda = "character"
 
 
+
 const $inputType = $("#inputType")
 /////
 $inputType.addEventListener("input", async (e) => {
@@ -97,8 +98,8 @@ function pintarPersonajes(personajes) {
   $resultSection.innerHTML = personajes.map(personaje => `
     <div class="card">
       <img class="rounded-xl w-72 h-auto transition-all duration-300 ease-in-out shadow-lg hover:scale-105 hover:shadow-cyan-400/50 cursor-pointer" src="${personaje.image}" alt="${personaje.name}">
-      <h2 class="text-white text-white text-3xl font-['Lilita_One'] m-2">${personaje.name}</h2>
-      <p>${personaje.status} - ${personaje.species}</p>
+      <h2 class=" text-[#f25c05] text-3xl font-['Lilita_One'] m-2">${personaje.name}</h2>
+      
     </div>
   `).join('');
 }
@@ -125,12 +126,12 @@ function pintarDatos(array) {
     if (tipoBusqueda === "character") {
       // Pintar personajes
       $resultSection.innerHTML += `
-        <div class="bg-black m-4 p-4 rounded-lg shadow-md transition hover:shadow-cyan-500/50 flex flex-col comic sm:bg-black min-w-80 md:min-w-32 md:min-h-15 justify-center items-center m-8">
-          <div class="comic-img-container m-8">
+        <div class="bg-[#43d675] m-4 p-4 rounded-lg shadow-md transition hover:shadow-cyan-500/50 flex flex-col comic sm:bg-[#43d675] min-w-80 md:min-w-32 md:min-h-15 justify-center items-center m-8">
+          <div class="comic-img-container m-8  ">
             <img class="img rounded-xl w-72 h-auto transition-all duration-300 ease-in-out shadow-lg hover:scale-105 hover:shadow-cyan-400/50 cursor-pointer" id="${item.id}" src="${item.image}" alt="">
           </div>
-          <h1 class="comic-title min-h-24 bg-black text-white text-3xl font-['Lilita_One'] m-2">Nombre: ${item.name}</h1>
-          <h3 class="comic-title min-h-24 bg-black text-white text-2xl font-['Lilita_One']">Género: ${item.gender === "Female"
+          <h1 class="comic-title min-h-24 bg-[#43d675] text-[#f25c05] text-3xl font-['Lilita_One'] m-2"> ${item.name}</h1>
+          <h3 class="comic-title min-h-24 bg-[#43d675] text-gray-800 text-2xl font-['Lilita_One']">Género: ${item.gender === "Female"
               ? "Mujer"
               : item.gender === "Male"
               ? "Hombre"
@@ -140,7 +141,7 @@ function pintarDatos(array) {
               ? "Género desconocido"
               : "Género no especificado"
             }</h3>
-          <h3 class="comic-title min-h-24 bg-black text-white text-2xl font-['Lilita_One']">Estado: ${item.status === "Alive"
+          <h3 class="comic-title min-h-24 bg-[#43d675] text-gray-800 text-2xl font-['Lilita_One']">Estado: ${item.status === "Alive"
               ? "Está vivo"
               : item.status === "Dead"
               ? "No está vivo"
@@ -187,7 +188,7 @@ function pintarDatos(array) {
         pintarDatos(data.episode)
         $containCharacter.innerHTML = ""
         $containCharacter.innerHTML = `
-        <section id="containCharacter" class=" bg-white flex justify-center items-center flex-wrap sm: bg-black min-w-80 md:min-w-32 md:min-h-15  " >
+        <section id="containCharacter" class=" bg-white flex justify-center items-center flex-wrap sm: bg-[#60a5fa] min-w-80 md:min-w-32 md:min-h-15  " >
         <img src="${data.image}" alt="" class="character-portrait ">
         <div class="flex flex-col character-details bg-white h-full w-full  justify-center items-center text-2xl flex-wrap">
               <h2 class="name h-800  h-full w-full flex justify-center items-center text-2xl font-['Lilita_One'] ">${data.name} </h2>
@@ -230,10 +231,10 @@ function pintarDatos(array) {
               const characterResponse = await Promise.all(characterPromises);
               const characterNames = characterResponse.map(character => character.data.name);
               const charactersList = characterNames.map(name => `<p>${name}</p>`).join('');
-              $charactersSection.innerHTML = `<div class="flex justify-center items-center flex-wrap sm: bg-black min-w-80 md:min-w-32 md:min-h-15 ">
+              $charactersSection.innerHTML = `<div class="flex justify-center items-center flex-wrap sm:bg-[#f4f1e0] min-w-80 md:min-w-32 md:min-h-15 ">
               <h2 class="text-3xl text-white"></h2>
-                <h3 class="text-white text-3xl m-8  font-[Lilita One]">Personajes en este episodio: ${episodeResponse.data.name}</h3>
-                <div class="flex flex-col text-white text-2xl  h-full w-full justify-center items-center bold">${charactersList}</div>
+                <h3 class="text-gray-800 text-3xl m-8  font-[Lilita One]">Personajes en este episodio: ${episodeResponse.data.name}</h3>
+                <div class="flex flex-col text-gray-800 text-2xl  h-full w-full justify-center items-center bold">${charactersList}</div>
                 <button id="buttonReturn2"  class="flex justify-center items-center rounded-xl w-72 h-auto transition-all duration-300 ease-in-out 
                 shadow-lg hover:scale-105 hover:shadow-cyan-400/50 
                 cursor-pointer" type="button"  class="first-page " aria-label="Pagina Previa">

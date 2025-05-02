@@ -40,30 +40,31 @@
 
 </head>
 
-<body class="bg-black">
+<body class="bg-[#f4f1e0]">
       <header>
 
       </header>
-      <div class="w-full overflow-hidden">
+      <div class="w-full overflow-hidden bg-[#60a5fa] ">
             <div class=" m-8  h-96 bg-[url('./style/img/8.jpg')] bg-cover bg-no-repeat bg-center">
                   hero
             </div>
       </div>
       <main class="column">
-            <div class="scearch ">
-                  <h2 id="search-title  " class="text-2xl font-bold">busqueda</h2>
+            <div class="scearch  ">
+                 
                   
-                  <div class="search-container bg-black min-h-48">
-                        <div class="search-input-container flex w-64 md: w-80">
-                              <input type="text" name="" id="input-text-search" placeholder="Ingresa tu Busqueda"
+                  <div class="search-container nmin-h-48"       >
+                        
+                        <div class="search-input-container flex w-64 md: w-80 ">
+                              <input class=""type="text" name="" id="input-text-search" placeholder="Ingresa tu Busqueda"
                                     class="search-input px-2 py-2 text-lg flex-grow outline-none text-gray-800 ">
-                              <i id="button-search" class=" fas fa-search text-black text-2xl "></i>
+                              <i id="button-search" class=" fas fa-search  text-2xl text-[#f4f1e0]"></i>
                         </div>
                         <div>
-                              <label id="TitleStatus" class="text-white text-1xl font-['Alfa_Slab_One'] md:text-2xl m-8"
+                              <label id="TitleStatus" class="text-gray-800 text-1xl font-['Alfa_Slab_One'] md:text-2xl m-8"
                                     for="filterType">tipo</label>
                               <select name="" id="inputType">
-                                    <option value="character">Personaje</option>
+                                    <option class="bg-[#f25c05]" value="character">Personaje</option>
                                     <option value="episode">Episodio</option>
                                     
 
@@ -73,7 +74,7 @@
                               <div id="sort-container">
                                    
                                     <div>
-                                          <label id="TitleStatus" class="text-white text-1xl font-['Alfa_Slab_One'] md:text-2xl m-8"
+                                          <label id="TitleStatus" class="text-gray-800 text-1xl font-['Alfa_Slab_One'] md:text-2xl m-8"
                                                 for="search-status">Estado</label>
                                           <select name="" id="search-status">
                                                 <option value="alive">Vivo</option>
@@ -83,7 +84,7 @@
                                           </select>
                                     </div>
                                     <div>
-                                          <label id="TitleGender" class="text-white text-1xl font-['Alfa_Slab_One'] md:text-2xl m-8"
+                                          <label id="TitleGender" class="text-gray-800 text-1xl font-['Alfa_Slab_One'] md:text-2xl m-8"
                                                 for="selectGender">Genero</label>
                                           <select name="" id="selectGender">
 
@@ -102,24 +103,24 @@
                   </div>
                   <div>
 
-                        <section id="containCharacter" class=" section  bg-red-100 h-full w-full ">
+                        <section id="containCharacter" class=" section  bg-[#60a5fa] h-full w-full ">
                               <img src="" alt="" class="character-portrait">
-                              <div class="character-details">
+                              <div class="character-details bg-[#f4f1e0] text-gray-800">
                                     <h2 class="character-name"></h2>
                                     <p class="character-description"></p>
                               </div>
                         </section>
                         <section id="resultSection"
-                              class="  flex justify-center items-center flex-wrap sm: bg-black min-w-80 md:min-w-32 md:min-h-15  ">
+                              class=" bg-[#f4f1e0] flex justify-center items-center flex-wrap sm: bg-[#f4f1e0] min-w-80 md:min-w-32 md:min-h-15  ">
                               
 
                   </div>
 
                   </section>
-                  <section class=" h-full w-full justify-center items-center" id="charactersSection">
+                  <section class=" h-full w-full justify-center items-center " id="charactersSection">
                         <div></div>
                   </section>
-                  <div id="pagination" class="pagination flex  justify-center  bg-black text-white min-h-24">
+                  <div id="pagination" class="pagination flex  justify-center  bg-[#43d675] text-white min-h-24">
                         <button type="button" id="firstPage" class="first-page " aria-label="Pagina Previa">
                               <i class="fa-solid fa-angles-left text-2xl md:text-4xl m-5  text-white"></i>
                         </button>
@@ -141,7 +142,7 @@
                   </div>
             </div>
       </main>
-      <footer class="flex justify-center items-center bg-black min-h-24 text-white tex-3xl ">
+      <footer class="flex justify-center items-center bg-yellow-300 min-h-24 text-white tex-3xl ">
             <div class="column font-family-Lilita One md:text-2xl m-8 md:min-h-24 md:min-w-80 md:text-4xl">Hecho por Nadia </div>
             <div class="titulo-contacto text-2xl md:min-h-24 md:min-w-80">
                   <a class="boton-contacto boton-contacto p-2 rounded-full transition-shadow duration-300 md:text-4xl " href="mailto:nadiaell@hotmail.com">
