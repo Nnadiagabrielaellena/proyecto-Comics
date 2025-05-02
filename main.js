@@ -233,7 +233,7 @@ function pintarDatos(array) {
               const charactersList = characterNames.map(name => `<p>${name}</p>`).join('');
               $charactersSection.innerHTML = `<div class="flex justify-center items-center flex-wrap sm:bg-[#f4f1e0] min-w-80 md:min-w-32 md:min-h-15 ">
               <h2 class="text-3xl text-white"></h2>
-                <h3 class="text-gray-800 text-3xl m-8  font-[Lilita One]">Personajes en este episodio: ${episodeResponse.data.name}</h3>
+                <h3 class="text-gray-800 text-2xl m-8 font-bold font-[Lilita One]">Personajes en este episodio: ${episodeResponse.data.name}</h3>
                 <div class="flex flex-col text-gray-800 text-2xl  h-full w-full justify-center items-center bold">${charactersList}</div>
                 <button id="buttonReturn2"  class="flex justify-center items-center rounded-xl w-72 h-auto transition-all duration-300 ease-in-out 
                 shadow-lg hover:scale-105 hover:shadow-cyan-400/50 
