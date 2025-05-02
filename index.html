@@ -40,31 +40,29 @@
 
 </head>
 
-<body class="bg-[#f4f1e0]">
-      <header>
-
-      </header>
-      <div class="w-full overflow-hidden bg-[#60a5fa] ">
+<body class="bg-[#f4f1e0] font-mono">
+      
+      <header class="w-full overflow-hidden  bg-gradient-to-b from-black to-indigo-900 ">
             <div class=" m-8  h-96 bg-[url('./style/img/8.jpg')] bg-cover bg-no-repeat bg-center">
-                  hero
+                  <h1 class=" lg:text-5xl font-bold lg:text-green-300 drop-shadow-lg lg:font-[Orbitron] lg:flex lg:justify-center lg:items-center">RICK and MORTY</h1>
             </div>
-      </div>
+      </header>
       <main class="column">
             <div class="scearch  ">
                  
                   
-                  <div class="search-container nmin-h-48"       >
+                  <div class="search-container min-h-60  bg-gradient-to-b from-black to-indigo-900 bg-opacity-10"       >
                         
                         <div class="search-input-container flex w-64 md: w-80 ">
                               <input class=""type="text" name="" id="input-text-search" placeholder="Ingresa tu Busqueda"
                                     class="search-input px-2 py-2 text-lg flex-grow outline-none text-gray-800 ">
-                              <i id="button-search" class=" fas fa-search  text-2xl text-[#f4f1e0]"></i>
+                              <i id="button-search" class=" fas fa-search  text-2xl "></i>
                         </div>
-                        <div>
-                              <label id="TitleStatus" class="text-gray-800 text-1xl font-['Alfa_Slab_One'] md:text-2xl m-8"
+                        <div class="">
+                              <label id="TitleStatus" class="text-green-300 text-1xl font-['Alfa_Slab_One'] md:text-2xl m-8"
                                     for="filterType">tipo</label>
                               <select name="" id="inputType">
-                                    <option class="bg-[#f25c05]" value="character">Personaje</option>
+                                    <option class="bg-[#f25c05] font-mono" value="character">Personaje</option>
                                     <option value="episode">Episodio</option>
                                     
 
@@ -74,7 +72,7 @@
                               <div id="sort-container">
                                    
                                     <div>
-                                          <label id="TitleStatus" class="text-gray-800 text-1xl font-['Alfa_Slab_One'] md:text-2xl m-8"
+                                          <label id="TitleStatus" class="text-green-300 text-1xl font-['Alfa_Slab_One'] md:text-2xl m-8"
                                                 for="search-status">Estado</label>
                                           <select name="" id="search-status">
                                                 <option value="alive">Vivo</option>
@@ -84,7 +82,7 @@
                                           </select>
                                     </div>
                                     <div>
-                                          <label id="TitleGender" class="text-gray-800 text-1xl font-['Alfa_Slab_One'] md:text-2xl m-8"
+                                          <label id="TitleGender" class="text-green-300 text-1xl font-['Alfa_Slab_One'] md:text-2xl m-8"
                                                 for="selectGender">Genero</label>
                                           <select name="" id="selectGender">
 
@@ -142,7 +140,7 @@
                   </div>
             </div>
       </main>
-      <footer class="flex justify-center items-center bg-yellow-300 min-h-24 text-white tex-3xl ">
+      <footer class="flex justify-center items-center font-mono bg-yellow-300 min-h-24 text-white tex-3xl ">
             <div class="column font-family-Lilita One md:text-2xl m-8 md:min-h-24 md:min-w-80 md:text-4xl">Hecho por Nadia </div>
             <div class="titulo-contacto text-2xl md:min-h-24 md:min-w-80">
                   <a class="boton-contacto boton-contacto p-2 rounded-full transition-shadow duration-300 md:text-4xl " href="mailto:nadiaell@hotmail.com">
