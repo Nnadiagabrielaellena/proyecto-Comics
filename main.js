@@ -130,8 +130,8 @@ function pintarDatos(array) {
           <div class="comic-img-container m-8  ">
             <img class="img rounded-xl w-72 h-auto transition-all duration-300 ease-in-out shadow-lg hover:scale-105 hover:shadow-cyan-400/50 cursor-pointer" id="${item.id}" src="${item.image}" alt="">
           </div>
-          <h1 class="comic-title min-h-24 bg-[#43d675] text-[#f25c05] text-3xl font-['Lilita_One'] m-2"> ${item.name}</h1>
-          <h3 class="comic-title min-h-24 bg-[#43d675] text-gray-800 text-2xl font-['Lilita_One']">Género: ${item.gender === "Female"
+          <h1 class="comic-title min-h-24 bg-[#43d675] text-[#f25c05] text-shadow tracking-wide text-4xl font-['Lilita_One'] m-2"> ${item.name}</h1>
+          <h3 class="comic-title min-h-24 bg-[#43d675] text-gray-800 text-2xl font-['Lilita_One'] inten-center"> ${item.gender === "Female"
               ? "Mujer"
               : item.gender === "Male"
               ? "Hombre"
@@ -141,7 +141,7 @@ function pintarDatos(array) {
               ? "Género desconocido"
               : "Género no especificado"
             }</h3>
-          <h3 class="comic-title min-h-24 bg-[#43d675] text-gray-800 text-2xl font-['Lilita_One']">Estado: ${item.status === "Alive"
+          <h3 class="comic-title min-h-24 bg-[#43d675] text-gray-800 text-2xl font-['Lilita_One']"> ${item.status === "Alive"
               ? "Está vivo"
               : item.status === "Dead"
               ? "No está vivo"
@@ -155,7 +155,7 @@ function pintarDatos(array) {
      
       // Pintar episodios
       $resultSection.innerHTML += `
-        <div class="bg-black m-4 p-4 rounded-lg shadow-md hover:shadow-green-500/50 flex flex-col min-w-80 md:min-w-32 justify-center items-center m-8">
+        <div class="bg-[#f4f1e0] m-4 p-4 rounded-lg shadow-md hover:shadow-green-500/50 flex flex-col min-w-80 md:min-w-32 justify-center items-center m-8">
           <h1 class="text-white text-3xl font-['Lilita_One'] m-2">Episodio: ${item.episode}${arrayDetailEpisode}</h1>
           <h2 class="text-white text-2xl font-['Lilita_One'] m-2">Nombre: ${item.name}</h2>
           <h3 class="text-white text-xl font-['Lilita_One'] m-2">Fecha de emisión: ${item.air_date}</h3>
@@ -188,7 +188,7 @@ function pintarDatos(array) {
         pintarDatos(data.episode)
         $containCharacter.innerHTML = ""
         $containCharacter.innerHTML = `
-        <section id="containCharacter" class=" bg-white flex justify-center items-center flex-wrap sm: bg-[#60a5fa] min-w-80 md:min-w-32 md:min-h-15  " >
+        <section id="containCharacter" class=" bg-[#f4f1e0] flex justify-center items-center flex-wrap sm: bg-[#60a5fa] min-w-80 md:min-w-32 md:min-h-15  " >
         <img src="${data.image}" alt="" class="character-portrait ">
         <div class="flex flex-col character-details bg-white h-full w-full  justify-center items-center text-2xl flex-wrap">
               <h2 class="name h-800  h-full w-full flex justify-center items-center text-2xl font-['Lilita_One'] ">${data.name} </h2>
